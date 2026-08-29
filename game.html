@@ -1,5 +1,6 @@
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>沖縄うみチャリ走</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reggae+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
 
 <script type="application/json" id="scores">{"records":[],"total":0,"sum":0}</script>
@@ -18,6 +19,7 @@
   }
 
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  canvas,#stage{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 
   body{
     margin:0;
@@ -176,6 +178,40 @@
   @media (max-height:680px){
     .screen{gap:11px;justify-content:flex-start;padding-top:16px}
     .brand h1{font-size:clamp(26px,7.5vw,40px)}
+  }
+
+  /* スマホ。60代でも読める大きさに上げる */
+  @media (max-width:560px){
+    .screen{gap:18px;justify-content:flex-start;padding:20px 16px 40px}
+    .pick-label{font-size:15px}
+    .names{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:100%}
+    .name{font-size:20px;padding:18px 6px 15px;border-radius:20px}
+    .name .dot{width:15px;height:15px}
+    .name .best{font-size:14px}
+    .go{font-size:26px;padding:20px 52px}
+    .guide,.board{max-width:100%;padding:16px 18px 18px;border-radius:22px}
+    .guide h2,.board h2{font-size:14px}
+    .grow{font-size:16px;grid-template-columns:34px 1fr auto;gap:12px;padding:8px 0}
+    .grow .ic{width:34px;height:34px}
+    .grow .nm span{font-size:14px}
+    .grow .pt{font-size:19px}
+    .row{padding:10px 0}
+    .row .who{font-size:18px}
+    .row .m{font-size:21px}
+    .row .m small{font-size:13px}
+    .row .rank{font-size:18px}
+    .note{font-size:14px;max-width:100%}
+    .dist{font-size:42px}
+    .dist small{font-size:19px}
+    .gear canvas{width:38px;height:38px}
+    .hud-r{font-size:14px}
+    .hud-r .lead-name{font-size:16px}
+    .verdict{font-size:clamp(26px,7.5vw,34px)}
+    .sub{font-size:16px}
+    .place{font-size:17px;max-width:100%;padding:12px 16px}
+    .place.clear{font-size:20px}
+    .catch{font-size:17px;max-width:100%;padding:14px 18px}
+    .badge{font-size:14px;padding:8px 18px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -496,24 +532,32 @@
   const cv = document.getElementById("cv");
   const ctx = cv.getContext("2d");
   let W = 0, H = 0, dpr = 1, PLAYER_X = 0;
+  // Z = ズーム。画面が小さいほど大きく描く（スマホのおばあちゃんでも見えるように）
+  let Z = 1;
+  let PX_PER_M = 26;          // Z に合わせて変わる（点の増え方は どの端末でも同じ）
+  let SPEED0 = 300, SPEEDMAX = 640, ACCEL = 11;
 
   function resize(){
     const r = cv.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = Math.round(r.width); H = Math.round(r.height);
-    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const cw = Math.round(r.width), ch = Math.round(r.height);
+    Z = cw < 380 ? 1.55 : cw < 500 ? 1.45 : cw < 700 ? 1.2 : 1;
+    W = Math.round(cw / Z); H = Math.round(ch / Z);
+    cv.width = Math.round(cw*dpr); cv.height = Math.round(ch*dpr);
+    ctx.setTransform(dpr*Z, 0, 0, dpr*Z, 0, 0);
     PLAYER_X = Math.round(W * 0.28);
+    PX_PER_M = 26 / Z;
+    SPEED0 = 300 / Z; SPEEDMAX = 640 / Z; ACCEL = 11 / Z;
   }
   window.addEventListener("resize", () => { resize(); if (g && !running) draw(); });
 
-  const G = 2400, JUMP = -790, JUMP_HAT = -880, JUMP2 = -680, PR = 17, PX_PER_M = 26;
+  const G = 2400, JUMP = -790, JUMP_HAT = -880, JUMP2 = -680, PR = 17;
 
   let g = null, running = false, raf = 0, last = 0;
 
   function newGame(){
     g = {
-      camX:0, speed:300, py:0, vy:0, jumps:0, onGround:true, hold:false, holdT:0,
+      camX:0, speed:SPEED0, py:0, vy:0, jumps:0, onGround:true, hold:false, holdT:0,
       coyote:0, buffer:0, dist:0, bonus:0, plats:[], items:[], gears:[], flags:[],
       puffs:[], sparks:[], dolphins:[], toast:null, banner:null, stageIdx:-1,
       combo:0, comboT:0, has:{}, dead:false, shake:0, nextGearAt:230, lap:1,
@@ -521,8 +565,8 @@
       cheer:null, hotel:false, cleared:false
     };
     g.baseTop = Math.round(H * 0.72);
-    g.plats.push({ x:-200, w:960, top:g.baseTop });
-    while (g.plats[g.plats.length-1].x + g.plats[g.plats.length-1].w < W + 900) addPlatform();
+    g.plats.push({ x:-200/Z, w:960/Z, top:g.baseTop });
+    while (g.plats[g.plats.length-1].x + g.plats[g.plats.length-1].w < W + 900/Z) addPlatform();
     g.py = g.baseTop - PR;
     // 家族の記録に旗を立てる
     g.flags = state.records
@@ -533,24 +577,24 @@
 
   function addPlatform(){
     const prev = g.plats[g.plats.length-1];
-    const k = g.speed / 300;
-    const gap = 62 + Math.random() * (46 + 80 * k);
+    const k = g.speed / SPEED0;
+    const gap = (62 + Math.random() * (46 + 80 * k)) / Z;
     const levels = [0,-46,-92,44];
     let top = g.baseTop + levels[(Math.random()*levels.length)|0];
     if (top < prev.top - 50) top = prev.top - 46;
     if (top > prev.top + 50) top = prev.top + 46;
     top = Math.max(H*0.40, Math.min(H*0.82, top));
-    const w = 130 + Math.random() * (200 + 120*k);
+    const w = (130 + Math.random() * (200 + 120*k)) / Z;
     const p = { x: prev.x + prev.w + gap, w, top };
     g.plats.push(p);
 
     // 谷の上に浮かぶシーサー（いちばん取りにくい＝いちばん高い点）
-    if (gap > 120 && Math.random() < 0.22){
+    if (gap*Z > 120 && Math.random() < 0.22){
       g.items.push({ x: prev.x + prev.w + gap/2, y: Math.min(prev.top, top) - 78, kind: ITEMS.shisa, got:false, t:Math.random()*6 });
     }
 
     // 乗れるイルカ（谷の上に出る）
-    if (gap > 90 && p.x / PX_PER_M > g.nextDolphinAt){
+    if (gap*Z > 90 && p.x / PX_PER_M > g.nextDolphinAt){
       g.rideDolphins.push({ x: prev.x + prev.w + gap/2, y: Math.min(prev.top, top) - 18, base: Math.min(prev.top, top), got:false, t:0 });
       g.nextDolphinAt = p.x / PX_PER_M + 600 + Math.random()*280;
     }
@@ -562,7 +606,7 @@
       const lift = kind === ITEMS.andagi ? 168 : (kind === ITEMS.citrus ? 96 : 40);
       const n = kind === ITEMS.sausage ? 1 + ((Math.random()*2)|0) : 1;
       for (let i = 0; i < n; i++){
-        g.items.push({ x: p.x + 44 + Math.random()*Math.max(20, p.w-110) + i*36, y: p.top - lift, kind, got:false, t:Math.random()*6 });
+        g.items.push({ x: p.x + 44/Z + Math.random()*Math.max(20, p.w-110/Z) + i*36/Z, y: p.top - lift, kind, got:false, t:Math.random()*6 });
       }
     }
 
@@ -616,7 +660,7 @@
   const toast  = txt => { g.toast  = { text:txt, life:2.2 }; };
 
   function step(dt){
-    g.speed = Math.min(640, g.speed + dt*11);
+    g.speed = Math.min(SPEEDMAX, g.speed + dt*ACCEL);
     g.camX += g.speed * (g.ride ? 1.35 : 1) * dt;
     g.dist = Math.floor(g.camX / PX_PER_M);
 
@@ -627,7 +671,7 @@
     }
 
     const lastP = g.plats[g.plats.length-1];
-    if (lastP.x + lastP.w < g.camX + W + 700) addPlatform();
+    if (lastP.x + lastP.w < g.camX + W + 700/Z) addPlatform();
     if (g.plats.length > 42) g.plats.splice(0, g.plats.length - 42);
     g.items = g.items.filter(it => it.x > g.camX - 200);
     g.gears = g.gears.filter(it => it.x > g.camX - 200);
@@ -988,10 +1032,11 @@
     // 画面の下の地図
     {
       const shown = g.dist + g.bonus;
-      const barY = H - 30, spanM = 2000;          // 画面の幅ぶん＝2km
-      const left = shown - 400, ppm = W / spanM;  // 自分は左から400m の位置
+      const spanM = 2000 / Z;                     // ズームするほど、せまい範囲を大きく見せる
+      const barY = H - 30, ppm = W / spanM;
+      const left = shown - spanM * 0.2;           // 自分は左から2わりの位置
       ctx.fillStyle = "rgba(10,60,80,.34)";
-      ctx.fillRect(0, barY - 12, W, 42);
+      ctx.fillRect(0, barY - 13, W, 46);
       ctx.strokeStyle = "rgba(255,255,255,.45)"; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(0, barY); ctx.lineTo(W, barY); ctx.stroke();
 
@@ -1010,12 +1055,12 @@
             ctx.beginPath(); ctx.arc(x, barY, 10, 0, 7); ctx.stroke();
           }
           ctx.fillStyle = big ? "#FFE9A0" : (done ? "rgba(255,255,255,.95)" : "rgba(255,255,255,.6)");
-          ctx.font = (big ? '900 11px ' : '700 10px ') + '"Zen Maru Gothic", sans-serif';
+          ctx.font = (big ? '900 13px ' : '700 12px ') + '"Zen Maru Gothic", sans-serif';
           ctx.fillText(pl.name + (pl.goal ? " ゴール" : (pl.hotel ? " ホテル" : "")), x, barY + 17);
         }
       }
       // じぶん
-      const mx = 400 * ppm;
+      const mx = spanM * 0.2 * ppm;
       ctx.fillStyle = "#FF6B52";
       ctx.beginPath(); ctx.arc(mx, barY, 7, 0, 7); ctx.fill();
       ctx.strokeStyle = "#fff"; ctx.lineWidth = 2.5;
@@ -1358,8 +1403,8 @@
   /* ---------- 図鑑を描く ---------- */
   function iconCanvas(){
     const c = document.createElement("canvas");
-    c.width = 52; c.height = 52; c.className = "ic";
-    c.getContext("2d").setTransform(2,0,0,2,0,0);
+    c.width = 68; c.height = 68; c.className = "ic";
+    c.getContext("2d").setTransform(2.6,0,0,2.6,0,0);
     return c;
   }
   function paintGuides(){
