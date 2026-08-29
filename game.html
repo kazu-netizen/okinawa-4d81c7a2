@@ -413,6 +413,8 @@
     function ensure(){
       if (ac) return true;
       try {
+        // iPhone/iPad の「マナーモードでも鳴らす」指定。これが無いと本体の消音スイッチで全部無音になる
+        try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch(e){}
         ac = new (window.AudioContext || window.webkitAudioContext)();
         master = ac.createGain(); master.gain.value = on ? 1 : 0; master.connect(ac.destination);
         mus = ac.createGain(); mus.gain.value = 0.22; mus.connect(master);
@@ -524,8 +526,15 @@
     function wake(){
       if (!ensure()) return;
       if (ac.state === "suspended") ac.resume();
+      // 一瞬だけ「音のない音」を鳴らして、ブラウザの音を目覚めさせる（iPhone対策）
+      try {
+        const b = ac.createBufferSource();
+        b.buffer = ac.createBuffer(1, 1, 22050);
+        b.connect(ac.destination); b.start(0);
+      } catch(e){}
       if (on) start();
     }
+    const awake = () => !!ac && ac.state === "running";
 
     function toggle(){
       on = !on;
@@ -539,7 +548,7 @@
     }
     const isOn = () => on;
 
-    return { start, stop, wake, se, toggle, isOn, ensure };
+    return { start, stop, wake, awake, se, toggle, isOn, ensure };
   })();
 
   /* =========================================================
@@ -1594,10 +1603,17 @@
   });
 
   paintSound();
-  // 最初に画面をさわった時点でBGMを流しはじめる
-  const wakeSound = () => SOUND.wake();
-  window.addEventListener("pointerdown", wakeSound, { once:true, capture:true });
-  window.addEventListener("keydown",     wakeSound, { once:true, capture:true });
+  // 最初に画面をさわった時点でBGMを流しはじめる。
+  // 1回目で鳴らなかった端末のために、ほんとうに鳴りだすまで さわるたびに ためす
+  function wakeSound(){
+    SOUND.wake();
+    if (SOUND.awake()){
+      window.removeEventListener("pointerdown", wakeSound, true);
+      window.removeEventListener("keydown", wakeSound, true);
+    }
+  }
+  window.addEventListener("pointerdown", wakeSound, true);
+  window.addEventListener("keydown", wakeSound, true);
 
   startBtn.addEventListener("click", () => { if (player) start(); });
   document.getElementById("againBtn").addEventListener("click", start);
