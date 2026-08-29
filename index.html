@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>沖縄 家族旅行のしおり</title>
+<style>
+/* ===== 外部の読み込みは一切なし。この1ファイルだけで開けます ===== */
+:root{
+  --paper:#fbf8f1;        /* 生成りの紙 */
+  --card:#ffffff;
+  --ink:#232b2e;
+  --ink-soft:#4f5a5e;
+  --ink-faint:#7f8a8e;
+  --rule:#d9d2c4;
+  --sea:#0d6a7a;          /* 海 */
+  --sea-mid:#2f9bad;
+  --sky:#bfe6ec;          /* 空 */
+  --sand:#f0e3c9;         /* 砂 */
+  --coral:#c9603f;        /* 差し色（さんご） */
+  --go:#2f6b4a;
+  --go-soft:#e9f2ec;
+  --warn:#8a6a1f;
+  --warn-soft:#fdf5e2;
+  --serif:'Hiragino Mincho ProN','Yu Mincho','YuMincho','MS PMincho',serif;
+  --sans:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);
+  font-size:18px;             /* 老眼鏡なしで読める基準 */
+  line-height:1.9;letter-spacing:.02em;
+}
+h1,h2,h3,.mincho{font-family:var(--serif);font-weight:700}
+
+.page{max-width:820px;margin:0 auto;padding:56px 24px 72px}
+.page + .page{border-top:8px solid var(--sky)}
+
+/* ---------- 表紙 ---------- */
+.cover{
+  background:linear-gradient(180deg,#dff2f6 0%,#a9dfe8 42%,#3fa3b5 78%,#0d6a7a 100%);
+  color:#fff;text-align:center;padding:70px 24px 60px;max-width:none;
+}
+.cover .inner{max-width:640px;margin:0 auto}
+.cover .eyebrow{letter-spacing:.4em;font-size:14px;opacity:.9;margin:0 0 26px}
+.cover h1{font-size:clamp(38px,10vw,68px);line-height:1.25;margin:0 0 6px;
+  text-shadow:0 2px 12px rgba(0,60,70,.25)}
+.cover .sub{font-family:var(--serif);font-size:clamp(19px,4.4vw,26px);margin:0 0 34px;opacity:.96}
+.cover .wave{font-size:30px;letter-spacing:.3em;margin:0 0 30px;opacity:.85}
+.count{
+  display:inline-block;background:rgba(255,255,255,.94);color:var(--sea);
+  border-radius:6px;padding:20px 34px;margin:0 0 34px;min-width:250px;
+}
+.count .cn{font-family:var(--serif);font-size:60px;line-height:1;display:block}
+.count .cn small{font-size:22px;margin-left:4px}
+.count .cl{font-size:15px;color:var(--ink-soft);letter-spacing:.14em;display:block;margin-top:6px}
+.names{background:rgba(255,255,255,.2);border-radius:6px;padding:20px 18px;margin:0 auto;max-width:520px}
+.names .nt{font-size:14px;letter-spacing:.2em;opacity:.9;margin:0 0 10px}
+.names ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px}
+.names li{font-family:var(--serif);font-size:20px}
+.names li small{font-size:13px;opacity:.85;margin-left:3px;font-family:var(--sans)}
+.cover .place{margin:30px 0 0;font-size:17px;opacity:.95}
+
+/* ---------- 見出し ---------- */
+.daytag{display:inline-block;background:var(--sea);color:#fff;border-radius:4px;
+  padding:6px 16px;font-size:16px;letter-spacing:.1em;margin:0 0 14px;font-weight:700}
+h2{font-size:clamp(26px,5.6vw,36px);line-height:1.45;margin:0 0 10px;color:var(--sea)}
+.theme{font-family:var(--serif);font-size:20px;color:var(--coral);margin:0 0 6px}
+.lede{color:var(--ink-soft);font-size:17px;margin:0 0 30px}
+
+/* ---------- 予定リスト ---------- */
+.sched{list-style:none;padding:0;margin:0 0 30px}
+.sched li{display:flex;gap:18px;padding:16px 4px;border-bottom:1px solid var(--rule);align-items:flex-start}
+.sched li:first-child{border-top:2px solid var(--sea)}
+.sched .tm{flex:0 0 108px;font-family:var(--serif);font-size:21px;color:var(--sea);line-height:1.35;padding-top:1px}
+.sched .bd{flex:1 1 auto}
+.sched .ttl{font-size:19px;font-weight:700;line-height:1.6}
+.sched .note{font-size:16px;color:var(--ink-soft);margin-top:3px;line-height:1.75}
+.sched li.rest{background:var(--sand)}
+.sched li.rest .tm,.sched li.rest .ttl{color:#7a5c27}
+.sched li.star{background:#fff5ee;border-left:6px solid var(--coral);padding-left:14px}
+.tagwho{display:inline-block;font-size:14px;background:var(--sky);color:#0b525f;
+  border-radius:3px;padding:1px 10px;margin-right:8px;font-weight:700;white-space:nowrap}
+
+/* ---------- 箱 ---------- */
+.box{background:var(--card);border:1px solid var(--rule);border-radius:5px;padding:24px 26px;margin:0 0 22px}
+.box h3{font-size:20px;margin:0 0 12px;line-height:1.5}
+.box p{margin:0 0 12px;font-size:17px}
+.box p:last-child{margin-bottom:0}
+.box.tide{background:var(--sky);border-color:#8fcdd8}
+.box.tide h3{color:#0b525f}
+.box.pack{background:var(--warn-soft);border-color:#e6d5a8}
+.box.soft{background:#f2f7f4;border-color:#cfe0d6}
+
+/* 一番大事なところ（このしおりで唯一、強く目立たせる） */
+.alert{
+  background:#fff;border:4px solid var(--coral);border-radius:8px;
+  padding:30px 30px 26px;margin:0 0 26px;box-shadow:0 8px 26px rgba(201,96,63,.18)
+}
+.alert .lbl{display:inline-block;background:var(--coral);color:#fff;font-size:15px;
+  letter-spacing:.14em;padding:5px 14px;border-radius:3px;margin:0 0 16px;font-weight:700}
+.alert .huge{font-family:var(--serif);font-size:clamp(34px,8vw,54px);line-height:1.2;color:var(--coral);margin:0 0 10px}
+.alert .huge small{display:block;font-size:19px;color:var(--ink);margin-top:8px;font-family:var(--sans);font-weight:700}
+.alert p{font-size:17px;margin:0 0 12px}
+.alert p:last-child{margin-bottom:0}
+.alert ul{margin:6px 0 14px;padding-left:1.3em;font-size:17px}
+.alert ul li{margin:4px 0}
+
+/* ---------- チェックリスト ---------- */
+.check{list-style:none;padding:0;margin:0}
+.check li{border-bottom:1px dashed var(--rule)}
+.check label{display:flex;gap:14px;align-items:flex-start;padding:14px 2px;cursor:pointer}
+.check input{position:absolute;opacity:0;width:0;height:0}
+.check .bx{flex:0 0 26px;width:26px;height:26px;border:2px solid var(--sea);border-radius:4px;
+  background:#fff;margin-top:2px;position:relative}
+.check input:checked + .bx::after{content:"✓";position:absolute;left:3px;top:-6px;
+  font-size:24px;color:var(--sea);font-weight:700}
+.check .txt{flex:1 1 auto;font-size:18px;line-height:1.7}
+.check .txt small{display:block;font-size:15px;color:var(--ink-soft);margin-top:2px}
+
+/* ---------- 表 ---------- */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:17px;min-width:420px}
+th,td{text-align:left;padding:13px 12px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.7}
+th{font-family:var(--serif);font-size:16px;color:var(--sea);white-space:nowrap;border-bottom:2px solid var(--sea)}
+
+/* ---------- 子どもページ ---------- */
+.kids{background:#fffaf0}
+.kids h2{color:var(--coral)}
+.find{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.find li{background:#fff;border:3px solid var(--sand);border-radius:12px;text-align:center;padding:16px 8px 14px}
+.find .em{font-size:46px;line-height:1.1;display:block}
+.find .nm{font-size:20px;font-weight:700;margin-top:6px;font-family:var(--serif)}
+.find .bx2{display:inline-block;width:32px;height:32px;border:3px solid var(--sea-mid);
+  border-radius:6px;margin-top:10px;background:#fff}
+.kidsnote{font-size:20px;font-family:var(--serif);color:var(--coral);margin:26px 0 0;text-align:center;line-height:1.8}
+
+/* ---------- ゲーム（表紙の入口ボタン） ---------- */
+.gametop{
+  display:block;max-width:460px;margin:38px auto 0;text-decoration:none;
+  background:linear-gradient(180deg,#f08a5f 0%,#c9603f 100%);
+  color:#fff;border-radius:14px;padding:22px 22px 20px;text-align:center;
+  border:3px solid rgba(255,255,255,.85);
+  box-shadow:0 10px 30px rgba(0,50,60,.30);
+}
+.gametop .gt-lbl{display:block;font-size:14px;letter-spacing:.18em;opacity:.95;margin-bottom:8px}
+.gametop .gt-name{display:block;font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.3}
+.gametop .gt-sub{display:block;font-size:16px;margin-top:8px;opacity:.97;line-height:1.6}
+.gametop .gt-go{display:inline-block;margin-top:14px;background:#fff;color:#c9603f;
+  font-weight:700;font-size:17px;border-radius:999px;padding:9px 26px}
+.gametop:active{transform:translateY(2px)}
+
+/* ---------- ゲーム ---------- */
+.gamebtn{
+  display:block;text-align:center;text-decoration:none;
+  background:linear-gradient(180deg,var(--sea-mid) 0%,var(--sea) 100%);
+  color:#fff;font-family:var(--serif);font-size:24px;font-weight:700;
+  padding:22px 20px;border-radius:8px;margin:22px 0 8px;
+  box-shadow:0 6px 18px rgba(13,106,122,.25);line-height:1.5;
+}
+.gamebtn span{display:block;font-family:var(--sans);font-size:15px;font-weight:400;opacity:.92;margin-top:4px}
+.gamebtn:active{transform:translateY(1px)}
+.howto{list-style:none;padding:0;margin:0}
+.howto li{display:flex;gap:14px;align-items:flex-start;padding:12px 2px;border-bottom:1px dashed var(--rule)}
+.howto li:last-child{border-bottom:0}
+.howto .no{flex:0 0 34px;height:34px;border-radius:50%;background:var(--sky);color:#0b525f;
+  font-family:var(--serif);font-size:18px;font-weight:700;text-align:center;line-height:34px}
+.howto .tx{flex:1 1 auto;font-size:18px;line-height:1.7}
+.printonly{display:none}
+
+/* ---------- 最後 ---------- */
+.small{font-size:15px;color:var(--ink-soft);line-height:1.8}
+.small table{font-size:15px}
+footer{max-width:820px;margin:0 auto;padding:36px 24px 70px;font-size:14px;color:var(--ink-faint);text-align:center}
+
+/* ---------- スマホ ---------- */
+@media (max-width:560px){
+  body{font-size:17px}
+  .page{padding:40px 18px 52px}
+  .sched li{flex-direction:column;gap:4px}
+  .sched .tm{flex:none;font-size:22px}
+  .alert,.box{padding:20px 18px}
+  .cover{padding:52px 18px 46px}
+}
+
+/* ---------- 印刷（A4縦・1日1ページ） ---------- */
+@media print{
+  @page{size:A4 portrait;margin:14mm}
+  html,body{background:#fff}
+  body{font-size:11.5pt;line-height:1.75}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{max-width:none;padding:0;break-after:page;page-break-after:always}
+  .page:last-of-type{break-after:auto;page-break-after:always}
+  .page + .page{border-top:0}
+  .cover{padding:40mm 10mm;min-height:auto}
+  .cover h1{font-size:40pt}
+  .alert{box-shadow:none}
+  .sched li,.box,.alert,.find li,.check li{break-inside:avoid;page-break-inside:avoid}
+  .noprint{display:none}
+  .printonly{display:block}
+  .gamebtn{box-shadow:none;border:2px solid var(--sea)}
+  .gametop{box-shadow:none;margin-top:22px;padding:16px 18px}
+  .gametop .gt-go{display:none}          /* 紙では押せないので出さない */
+  .gametop .gt-name{font-size:20pt}
+  footer{padding:10mm 0 0}
+}
+</style>
+</head>
+<body>
+
+<!-- ========================= 表紙 ========================= -->
+<section class="page cover">
+  <div class="inner">
+    <p class="eyebrow">FAMILY TRIP</p>
+    <h1>おきなわ</h1>
+    <p class="sub">2026年9月7日（月）〜 9月10日（木）　3泊4日</p>
+    <p class="wave">〜　〜　〜</p>
+
+    <div class="count">
+      <span class="cn" id="cn">あと9<small>日</small></span>
+      <span class="cl" id="cl">しゅっぱつまで</span>
+    </div>
+
+    <div class="names">
+      <p class="nt">い っ し ょ に い く 人</p>
+      <ul>
+        <li>一貴</li>
+        <li>鈴依奈</li>
+        <li>久美</li>
+        <li>富美枝</li>
+        <li>鈴花<small>2さい</small></li>
+        <li>大樹<small>0さい</small></li>
+      </ul>
+    </div>
+
+    <p class="place">恩納村　ルネッサンス リゾート オキナワ<br>
+      <span style="font-size:15px;opacity:.9">海の目の前。イルカがいるホテルです。</span></p>
+
+    <a class="gametop" href="./game.html" target="_blank" rel="noopener">
+      <span class="gt-lbl">い ま す ぐ あ そ べ ま す</span>
+      <span class="gt-name">沖縄うみチャリ走</span>
+      <span class="gt-sub">家族6人で きょりを 競うゲーム</span>
+      <span class="gt-go">ここを押して あそぶ</span>
+    </a>
+    <p class="printonly" style="max-width:460px;margin:12px auto 0;font-size:15px;color:#0b525f;background:#fff;border-radius:6px;padding:10px 14px">
+      紙で見ている人は、<b>家族のグループに貼ってあるリンク</b>から開いてください。
+    </p>
+  </div>
+</section>
+
+<!-- ========================= これだけは忘れない ========================= -->
+<section class="page">
+  <span class="daytag">いちばん大事なページ</span>
+  <h2>これだけは、忘れないでください</h2>
+  <p class="lede">この2つさえ守れば、あとは流れで大丈夫です。</p>
+
+  <div class="alert">
+    <span class="lbl">その1</span>
+    <div class="huge">9月8日（火）朝 8:30
+      <small>アクティビティカウンターへ。開くと同時に行く</small></div>
+    <p><b>ここで、やりたいこと全部を申し込みます。</b></p>
+    <ul>
+      <li>青の洞窟シュノーケリング（おばあちゃん2人）</li>
+      <li>ハッピードルフィン（イルカにさわる）</li>
+      <li>ドルフィンスプラッシュ（イルカのジャンプ）</li>
+      <li>SUP</li>
+      <li>ヨットでサンセット</li>
+      <li><b>10日（木）朝6:30の ビーチヨガ</b></li>
+    </ul>
+    <p><b>電話では予約できないことが分かっています。</b>ホテルの窓口に行くしか方法がありません。
+      窓口は8:30に開いて、17:00に閉まります。
+      <b>7日（月）は夜に着くので、8日の朝がいちばん早いチャンスです。</b></p>
+    <p style="background:#fff5ee;padding:12px 14px;border-radius:4px;margin-top:14px">
+      <b>もし埋まっていたら</b>　青の洞窟は9日の午前に。イルカは9日に（9:30と15:00の2回あります）。
+      それも無理なら「クマノミ号クルーズ」か「はりゅう船」に切りかえます。どちらも毎日やっていて、子どもも全員乗れます。</p>
+  </div>
+
+  <div class="alert" style="border-color:var(--sea);box-shadow:0 8px 26px rgba(13,106,122,.15)">
+    <span class="lbl" style="background:var(--sea)">その2</span>
+    <div class="huge" style="color:var(--sea)">9月9日（水）の夜
+      <small>翌朝6:30のヨガ、申し込めているか最終確認</small></div>
+    <p>ビーチヨガは<b>前日までの申し込み</b>が必要です。<b>3泊するので今回は無料</b>。
+      朝日を浴びながら海辺でやります。雨でもジムでやるので中止になりません。</p>
+    <p style="color:var(--ink-soft);font-size:16px">寝る前に「明日のヨガ、大丈夫だよね？」と一声かけるだけで済みます。</p>
+  </div>
+</section>
+
+<!-- ========================= 1日目 ========================= -->
+<section class="page">
+  <span class="daytag">1日目　9月7日（月）</span>
+  <h2>着いた日</h2>
+  <p class="theme">那覇でお買いもの。暗くなる前にホテルへ</p>
+  <p class="lede">今日は移動の日。無理せず、早めにごはんを食べてホテルに向かいます。</p>
+
+  <ul class="sched">
+    <li><div class="tm">13:20</div><div class="bd">
+      <div class="ttl">那覇空港に到着</div>
+      <div class="note">福岡 11:30発（NH1207）。荷物を受け取ります</div></div></li>
+    <li><div class="tm">〜14:00</div><div class="bd">
+      <div class="ttl">レンタカーのバス乗り場へ</div>
+      <div class="note">乗り場は「<b>11-B</b>」。無料の送迎バスが15分おき、お店まで20分ほど</div></div></li>
+    <li><div class="tm">14:00</div><div class="bd">
+      <div class="ttl">レンタカーを受け取る</div>
+      <div class="note">チャイルドシートは2列目に鈴花、3列目に大樹。荷物を積みます</div></div></li>
+    <li><div class="tm">15:15</div><div class="bd">
+      <div class="ttl">国際通りに到着</div>
+      <div class="note">車は「県民広場地下駐車場」に。国際通りの入口まで歩いて1分です</div></div></li>
+    <li class="star"><div class="tm">15:15<br>〜16:45</div><div class="bd">
+      <div class="ttl">お買いもの（1時間半）</div>
+      <div class="note"><b>オリオンビールのTシャツを家族みんなの分。</b>おみやげ。<br>
+        魚肉ソーセージはスーパーかコンビニで</div></div></li>
+    <li><div class="tm">17:00</div><div class="bd">
+      <div class="ttl">那覇で早めの夕ごはん</div>
+      <div class="note">子どもたちがいつもの時間に食べられるように、早めにします</div></div></li>
+    <li><div class="tm">18:15</div><div class="bd">
+      <div class="ttl">恩納村のホテルへ出発</div>
+      <div class="note">高速で1時間〜1時間20分。<b>子どもたちは車で寝てしまってOK</b></div></div></li>
+    <li><div class="tm">19:30</div><div class="bd">
+      <div class="ttl">ホテル到着・チェックイン</div>
+      <div class="note">フロントで「10日は何時まで部屋を使えますか」と聞いておきます</div></div></li>
+  </ul>
+
+  <div class="box pack">
+    <h3>この日のこと</h3>
+    <p>・出かける前に<b>家族みんなのTシャツのサイズ</b>をメモしておくと、お店で早く終わります。</p>
+    <p>・アクティビティの窓口は17時に閉まるので、<b>この日は申し込みできません</b>。明日の朝いちばんに行きます。</p>
+  </div>
+</section>
+
+<!-- ========================= 2日目 ========================= -->
+<section class="page">
+  <span class="daytag">2日目　9月8日（火）</span>
+  <h2>海の日</h2>
+  <p class="theme">おばあちゃんは青の洞窟へ。午後はイルカ</p>
+  <p class="lede">朝いちばんの窓口が、この旅でいちばん大事な用事です。</p>
+
+  <ul class="sched">
+    <li class="star"><div class="tm">8:30</div><div class="bd">
+      <div class="ttl">アクティビティカウンターへ（いちばん大事）</div>
+      <div class="note"><b>開くと同時に行きます。</b>やりたいこと6つを、ここで全部申し込みます</div></div></li>
+    <li><div class="tm">朝</div><div class="bd">
+      <div class="ttl">朝ごはん</div></div></li>
+    <li><div class="tm">午前</div><div class="bd">
+      <div class="ttl"><span class="tagwho">久美・富美枝</span>青の洞窟シュノーケリング</div>
+      <div class="note">80分ほど。船で行きます。酔い止めは出かける前に飲んでおきます<br>
+        <b>※ 参加できるかどうかは、8:30に窓口で確認してから決めます</b></div></div></li>
+    <li><div class="tm">午前</div><div class="bd">
+      <div class="ttl"><span class="tagwho">一貴・鈴依奈・鈴花・大樹</span>ホテルのビーチデビュー</div>
+      <div class="note">パラソルもイスもマットも無料で借りられます。<br>
+        キッズスプラッシュ広場（水あそび場・無料）もこの時間に<br>
+        <b>ビーチの両はしの岩場がどこにあるか、歩いて見ておきます</b>（明日の下見）</div></div></li>
+    <li><div class="tm">12:30</div><div class="bd"><div class="ttl">お昼ごはん（みんなで）</div></div></li>
+    <li class="rest"><div class="tm">13:00<br>〜14:30</div><div class="bd">
+      <div class="ttl">おひるね・休憩</div>
+      <div class="note">ここには予定を入れません。ゆっくりします</div></div></li>
+    <li><div class="tm">15:00</div><div class="bd">
+      <div class="ttl"><span class="tagwho">一貴さん以外の5人</span>ハッピードルフィン</div>
+      <div class="note">30分。<b>海に入らず、桟橋からイルカにさわれます</b>。赤ちゃんも大丈夫</div></div></li>
+    <li><div class="tm">16:00</div><div class="bd">
+      <div class="ttl">ドルフィンスプラッシュ</div>
+      <div class="note">目の前でイルカがジャンプします。<b>水しぶきがかかります。着替えを用意</b><br>
+        おばあちゃん2人は、午前中がんばったのでここはお休みでOK</div></div></li>
+    <li><div class="tm">18:00</div><div class="bd"><div class="ttl">夕ごはん（早め）</div></div></li>
+  </ul>
+
+  <div class="box tide">
+    <h3>この日の潮　—　いちばん引くのは 11:18</h3>
+    <p>明日ほどではありませんが、午前中に岩場が出てきます。ビーチを歩くついでに、
+      <b>カニやヤドカリがいそうな岩場を見つけておく</b>と、明日が楽しくなります。</p>
+  </div>
+
+  <div class="box pack">
+    <h3>この日の持ちもの</h3>
+    <p>・おばあちゃん2人 … <b>酔い止め</b>（出かける前に飲む）／水着／タオル／<b>健康調査書</b></p>
+    <p>・みんな … 水着／<b>マリンシューズ</b>／日焼け止め／帽子／水あそび用オムツ</p>
+    <p>・イルカのあとに<b>着替え一式</b>（濡れます）</p>
+  </div>
+</section>
+
+<!-- ========================= 3日目 ========================= -->
+<section class="page">
+  <span class="daytag">3日目　9月9日（水）</span>
+  <h2>カニとヤドカリの日</h2>
+  <p class="theme">そして、最後の夜</p>
+  <p class="lede">この日の11時から13時が、旅のいちばんの見どころです。</p>
+
+  <ul class="sched">
+    <li><div class="tm">朝</div><div class="bd">
+      <div class="ttl">朝ごはん・パーゴラルームを取る</div>
+      <div class="note">プールサイドの屋根つき個室。今日1日の休憩場所にします</div></div></li>
+    <li><div class="tm">9:30<br>〜10:45</div><div class="bd">
+      <div class="ttl"><span class="tagwho">一貴・鈴依奈</span>SUP（交代で）</div>
+      <div class="note">60分。その間、おばあちゃん2人が子どもたちを見ます</div></div></li>
+    <li class="star"><div class="tm">11:00<br>〜13:00</div><div class="bd">
+      <div class="ttl"><span class="tagwho">大人4人そろって</span>磯あそび。カニとヤドカリを探す</div>
+      <div class="note">ビーチの両はしの岩場と、潮だまり（水たまり）で<br>
+        <b>マリンシューズを必ずはきます。はだしで岩の上を歩かせない</b></div></div></li>
+    <li><div class="tm">13:15</div><div class="bd">
+      <div class="ttl">お昼ごはん・パーゴラルームで休憩</div></div></li>
+    <li class="rest"><div class="tm">13:45<br>〜15:30</div><div class="bd">
+      <div class="ttl">おひるね・休憩</div></div></li>
+    <li><div class="tm">午後</div><div class="bd">
+      <div class="ttl">プール</div>
+      <div class="note">外のプールは夜8時まで、屋内プールは夜10時まで。<br>
+        日ざしが強かったら屋内へ。<b>水あそび用オムツの上に水着でOK</b></div></div></li>
+    <li><div class="tm">17:45<br>ごろ</div><div class="bd">
+      <div class="ttl">ヨットでサンセット</div>
+      <div class="note">60分。夕日に合わせて出発するので、時間は当日決まります<br>
+        （9月の沖縄の日の入りは18時40分ごろ）</div></div></li>
+    <li><div class="tm">19:15</div><div class="bd">
+      <div class="ttl">夕ごはん</div>
+      <div class="note"><b>寝る前に、明日6:30のヨガの申し込みを確認します</b></div></div></li>
+  </ul>
+
+  <div class="box tide">
+    <h3>この日の潮　—　いちばん引くのは 12:04</h3>
+    <p><b>この4日間でいちばん潮が引く時間です。</b>ふだんは海の中にある岩場が顔を出して、
+      あちこちに水たまり（潮だまり）ができます。そこに小さなカニやヤドカリや魚が取り残されるので、
+      2歳の鈴花でも見つけられます。</p>
+    <p style="font-size:16px;color:#0b525f"><b>お昼ちょうどで日ざしが強い時間です。</b>
+      帽子とラッシュガード、そしてこまめに日かげへ。パーゴラルームを取っているのはこのためです。</p>
+  </div>
+
+  <div class="box pack">
+    <h3>この日の持ちもの</h3>
+    <p>・<b>マリンシューズ（全員）</b>　・帽子　・ラッシュガード　・日焼け止め</p>
+    <p>・小さなバケツかカップがあると、つかまえた生きものを見せられます</p>
+    <p>・<b>食酢の小びん</b>（万一クラゲに刺されたときの応急手当てに使います）</p>
+  </div>
+</section>
+
+<!-- ========================= 4日目 ========================= -->
+<section class="page">
+  <span class="daytag">4日目　9月10日（木）</span>
+  <h2>帰る日</h2>
+  <p class="theme">朝ヨガから始めて、海で締める</p>
+  <p class="lede">最後まで海で遊んでから、那覇に向かいます。</p>
+
+  <ul class="sched">
+    <li class="star"><div class="tm">6:30<br>〜7:30</div><div class="bd">
+      <div class="ttl"><span class="tagwho">大人だけ</span>早朝ビーチ琉球ヨーガ</div>
+      <div class="note"><b>3泊するので無料です。</b>朝日を浴びながら、沖縄の音楽でゆっくり体を動かします<br>
+        雨の日はジムでやるので、中止になりません</div></div></li>
+    <li><div class="tm">8:00</div><div class="bd"><div class="ttl">朝ごはん</div></div></li>
+    <li><div class="tm">〜11:00</div><div class="bd">
+      <div class="ttl">荷づくり</div>
+      <div class="note">部屋を長く使わせてもらえたら、荷物は置いたままで大丈夫です</div></div></li>
+    <li><div class="tm">11:00<br>〜12:45</div><div class="bd">
+      <div class="ttl">最後のビーチ。磯あそび2回目</div>
+      <div class="note">この日も昼すぎに潮が引きます。もう一度カニ探しができます</div></div></li>
+    <li><div class="tm">12:45</div><div class="bd">
+      <div class="ttl">シャワー・着替え・チェックアウト</div></div></li>
+    <li><div class="tm">13:15</div><div class="bd">
+      <div class="ttl">那覇へ出発</div>
+      <div class="note">1時間ほど。とちゅうでガソリンを入れます</div></div></li>
+    <li><div class="tm">16:00</div><div class="bd">
+      <div class="ttl">レンタカーを返す</div>
+      <div class="note">無料の送迎バス（20分ほど）で空港へ</div></div></li>
+    <li><div class="tm">16:30<br>〜18:20</div><div class="bd">
+      <div class="ttl">空港で夕ごはん・おみやげ</div></div></li>
+    <li><div class="tm">18:20</div><div class="bd">
+      <div class="ttl">那覇を出発（NH1214）</div>
+      <div class="note">福岡に 20:00 着</div></div></li>
+  </ul>
+
+  <div class="box tide">
+    <h3>この日の潮　—　いちばん引くのは 12:44</h3>
+    <p>昨日と同じくらい引きます。<b>チェックアウトの前に、もう一度だけ岩場へ。</b></p>
+  </div>
+
+  <div class="box pack">
+    <h3>この日の持ちもの</h3>
+    <p>・海から上がったあとの<b>着替え一式</b>を、スーツケースに入れずに手元に出しておく</p>
+    <p>・部屋を長く使えなかったときのために、<b>タオルと着替えを1つの袋にまとめておく</b></p>
+  </div>
+</section>
+
+<!-- ========================= 持ちもの ========================= -->
+<section class="page">
+  <span class="daytag">持ちもの</span>
+  <h2>チェックリスト</h2>
+  <p class="lede">印刷して、手でチェックを入れられます。画面ではタップでもチェックできます。</p>
+
+  <div class="box">
+    <h3>今回のために新しく用意するもの</h3>
+    <ul class="check">
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">マリンシューズ（家族全員分）
+        <small>岩場をはだしで歩かないため。ビーチサンダルはすべるので不向きです</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">食酢の小びん
+        <small>もしクラゲに刺されたときの応急手当てに使います。こすらず、酢をたっぷりかけます</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">酔い止めの薬
+        <small>おばあちゃん2人の、青の洞窟の日に</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">子ども用のシュノーケルマスク
+        <small>ホテルで借りられるものに子どもサイズがあるか分からないので、使い慣れたものを</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">健康調査書（印刷して記入したもの）
+        <small>青の洞窟とSUPで必要です。書いて持って行くと当日が早く済みます</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">家族全員のTシャツのサイズを書いたメモ
+        <small>1日目、国際通りでオリオンのTシャツを買うときに</small></span></label></li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>海と子どものもの</h3>
+    <ul class="check">
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">水あそび用オムツ
+        <small>ホテルでも売っていますが小さいサイズは無いので、持って行きます</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">着替え（多め）
+        <small>イルカのジャンプで濡れます。磯あそびでも濡れます</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">日焼け止め（子ども用）</span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">ラッシュガード</span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">帽子（つばの広いもの）・日がさ</span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">水着（全員）・ビーチタオル</span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">小さなバケツかカップ
+        <small>つかまえたカニやヤドカリを入れて、みんなで見るのに</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">ベビーカー1台・抱っこひも2つ
+        <small>もう1台はホテルで借ります</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">おばあちゃん2人の歩きやすい靴</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================= 予約と連絡先 ========================= -->
+<section class="page">
+  <span class="daytag">もしものとき</span>
+  <h2>予約と連絡先</h2>
+  <p class="lede">困ったときは、ここを見てください。</p>
+
+  <div class="box">
+    <h3>飛行機</h3>
+    <div class="tw"><table>
+      <tr><th>行き</th><td><b>NH1207</b>　9月7日（月）　福岡 11:30 → 那覇 13:20</td></tr>
+      <tr><th>帰り</th><td><b>NH1214</b>　9月10日（木）　那覇 18:20 → 福岡 20:00</td></tr>
+    </table></div>
+  </div>
+
+  <div class="box">
+    <h3>ホテル</h3>
+    <div class="tw"><table>
+      <tr><th>名前</th><td><b>ルネッサンス リゾート オキナワ</b><br>沖縄県国頭郡恩納村山田3425-2</td></tr>
+      <tr><th>予約番号</th><td>デラックス ツイン　<b>94167364</b><br>スーペリア ツイン　<b>94167488</b></td></tr>
+      <tr><th>アクティビティ<br>カウンター</th><td><b>098-964-5629</b>　（8:30〜17:00）</td></tr>
+      <tr><th>代表の番号</th><td>予約確認メールに書いてあります</td></tr>
+    </table></div>
+  </div>
+
+  <div class="box">
+    <h3>レンタカー</h3>
+    <div class="tw"><table>
+      <tr><th>会社</th><td><b>オリックスレンタカー 那覇空港店</b>（豊崎）</td></tr>
+      <tr><th>車</th><td>ステップワゴン（8人乗り）</td></tr>
+      <tr><th>予約番号</th><td><b>247248352</b></td></tr>
+      <tr><th>受け取り</th><td>9月7日（月）14:00　／　空港の送迎バス乗り場「<b>11-B</b>」から</td></tr>
+      <tr><th>返す</th><td>9月10日（木）16:00</td></tr>
+    </table></div>
+  </div>
+
+  <div class="box soft">
+    <h3>国際通りの駐車場（1日目）</h3>
+    <p><b>県民広場地下駐車場</b>（県庁前）　高さ制限 2.2m ／ 202台 ／ その日の上限 1,500円<br>
+      国際通りの入口まで歩いて1分です。</p>
+    <p style="font-size:16px;color:var(--ink-soft)">満車のときは「パレットくもじ地下駐車場」へ（高さ制限 2.1m）。</p>
+  </div>
+
+  <p class="small">※ 予約のパスワードは、このしおりには書いていません。別の控えにあります。</p>
+</section>
+
+<!-- ========================= みんなで あそぶ ========================= -->
+<section class="page">
+  <span class="daytag">みんなで あそぶ</span>
+  <h2>沖縄うみチャリ走</h2>
+  <p class="theme">6人でスコアを競う、かんたんなゲームです</p>
+  <p class="lede">
+    沖縄の岩場と桟橋を、自転車でどこまで走れるかを競います。画面をタップしてジャンプするだけ。
+    6人の名前から自分を選んで走ると、<b>自己ベストが残って、家族みんなのランキングが見られます。</b><br>
+    <span style="color:var(--ink-faint);font-size:16px">入口のボタンは、このしおりの表紙にもあります。</span>
+  </p>
+
+  <a class="gamebtn" href="./game.html" target="_blank" rel="noopener">
+    沖縄うみチャリ走 を あそぶ
+    <span>ここを押すと開きます</span>
+  </a>
+  <p class="printonly" style="font-size:16px;color:var(--ink-soft);margin:6px 0 22px">
+    紙で見ている人は、<b>家族のグループに貼ってあるリンク</b>から開いてください。
+  </p>
+
+  <div class="box">
+    <h3>あそびかた</h3>
+    <ul class="howto">
+      <li><span class="no">1</span><span class="tx"><b>画面をタップ</b>すると、ジャンプします</span></li>
+      <li><span class="no">2</span><span class="tx"><b>長おし</b>すると、高くとびます</span></li>
+      <li><span class="no">3</span><span class="tx"><b>空中でもう1回タップ</b>で、2段ジャンプ</span></li>
+    </ul>
+  </div>
+
+  <div class="box tide">
+    <h3>走った距離が、そのまま沖縄の地図になります</h3>
+    <p><b>画面の下に沖縄本島の地図が出て、いまどこまで来たかが分かります。</b></p>
+    <div class="tw"><table>
+      <tr><th>0.3km</th><td>国際通り</td></tr>
+      <tr><th>1.8km</th><td>残波岬</td></tr>
+      <tr><th>2.8km</th><td><b>ルネッサンス（とまるホテル）に とうちゃく</b>　お祝いが出ます</td></tr>
+      <tr><th>5.6km</th><td>美ら海水族館</td></tr>
+      <tr><th>6.6km</th><td><b>辺戸岬（本島のさいほくたん）。ここまで行くと ゲームクリア</b></td></tr>
+    </table></div>
+    <p style="margin-top:14px"><b>クリアしても止まりません。</b>そのまま、どこまでも走りつづけられます。</p>
+    <p style="font-size:16px;color:#0b525f">
+      そして<b>家族6人の合計距離</b>で、「那覇空港からホテルまでの<b>55km</b>」を目指します。
+      1人でとどかなくても、みんなで足せば着きます。</p>
+  </div>
+
+  <div class="box soft">
+    <h3>走っていると、こんなものが出てきます</h3>
+    <p><b>拾えるもの</b>　魚肉ソーセージ　／　シークヮーサー　／　サーターアンダギー　／　シーサー</p>
+    <p><b>そうび</b>　むぎわら帽子　／　アロハシャツ　／　うきわ</p>
+    <p><b>ときどきイルカに乗れる区間</b>があります。<br>
+      背景も、走るほど変わります。あさの砂浜からはじまって、ほしぞら、スコール、さいごは にじの海。全部で10通り。</p>
+  </div>
+</section>
+
+<!-- ========================= 鈴花ちゃんのページ ========================= -->
+<section class="page kids">
+  <span class="daytag" style="background:var(--coral)">すずかちゃんへ</span>
+  <h2>みつけたら チェック！</h2>
+  <p class="theme">おきなわの うみに いる いきものたち</p>
+  <p class="lede" style="font-size:19px">みつけたら、しかくに しるしを つけよう。</p>
+
+  <ul class="find">
+    <li><span class="em">🦀</span><span class="nm">かに</span><br><span class="bx2"></span></li>
+    <li><span class="em">🐚</span><span class="nm">やどかり</span><br><span class="bx2"></span></li>
+    <li><span class="em">🐠</span><span class="nm">ちいさい さかな</span><br><span class="bx2"></span></li>
+    <li><span class="em">🐬</span><span class="nm">いるか</span><br><span class="bx2"></span></li>
+    <li><span class="em">🌀</span><span class="nm">かい</span><br><span class="bx2"></span></li>
+    <li><span class="em">🥒</span><span class="nm">なまこ</span><br><span class="bx2"></span></li>
+    <li><span class="em">⭐️</span><span class="nm">ひとで</span><br><span class="bx2"></span></li>
+    <li><span class="em">🪸</span><span class="nm">さんご</span><br><span class="bx2"></span></li>
+    <li><span class="em">🐢</span><span class="nm">うみがめ</span><br><span class="bx2"></span></li>
+    <li><span class="em">🦐</span><span class="nm">えび</span><br><span class="bx2"></span></li>
+    <li><span class="em">🌺</span><span class="nm">はいびすかす</span><br><span class="bx2"></span></li>
+    <li><span class="em">🦁</span><span class="nm">しーさー</span><br><span class="bx2"></span></li>
+  </ul>
+
+  <p class="kidsnote">いわの すきまや、みずたまりを のぞいてみてね。<br>
+    さわるまえに、おとうさんか おかあさんに きいてね。</p>
+</section>
+
+<!-- ========================= おばあちゃんへ ========================= -->
+<section class="page">
+  <span class="daytag">久美さん・富美枝さんへ</span>
+  <h2>青の洞窟シュノーケリング</h2>
+  <p class="theme">9月8日（火）の午前　／　約80分</p>
+
+  <div class="box warn" style="background:var(--warn-soft);border-color:#e6d5a8">
+    <h3>まず、大事なお知らせです</h3>
+    <p><b>これは、まだ決まっていません。</b></p>
+    <p>ホテルの案内に「何歳まで参加できるか」「持病があっても大丈夫か」
+      「泳げなくても参加できるか」が書かれていませんでした。</p>
+    <p><b>9月8日の朝8時半に窓口で確認して、そこで決めます。</b>
+      参加できないと言われたら、無理せず別の楽しみに変えます。
+      その場合は、水中展望室から魚を見る「クマノミ号クルーズ」（濡れません）などがあります。</p>
+    <p style="font-size:16px;color:var(--ink-soft)">
+      持病やお薬のことを聞かれるかもしれません。<b>飲んでいるお薬があれば、名前が分かるものを持ってきてください。</b></p>
+  </div>
+
+  <div class="box soft">
+    <h3>どんなものか</h3>
+    <p>船で「青の洞窟」まで行って、海の中をのぞきます。港からは<b>5分から7分ほど</b>と、そんなに長くありません。</p>
+    <p>青の洞窟には、歩いて行くコースもあるのですが、<b>100段以上の階段と岩場を歩きます</b>。
+      今回の船で行くコースなら、その階段を通らずに済みます。<b>体には、こちらの方が楽です。</b></p>
+    <p><b>泳げなくても大丈夫だと言われています。</b>ウェットスーツとライフジャケットを着ると、体は自然に浮きます。
+      案内の人が浮き具で引っぱってくれるので、自分で泳ぐ必要はありません。
+      <span style="color:var(--ink-soft)">（これは他の会社の案内で見た話です。ホテルのものも同じかどうかは、当日確認します）</span></p>
+  </div>
+
+  <div class="box">
+    <h3>当日の流れ</h3>
+    <ul class="check">
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">前の日の夜、早めに休む</span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">朝ごはんの前後に<b>酔い止めを飲む</b>
+        <small>船なので、念のため</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">水着を着てから、上に服を着ておく</span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt"><b>健康調査書</b>を出す
+        <small>書いて持って行けば、その場で書かずに済みます</small></span></label></li>
+      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">タオルと着替えを持って集合場所へ</span></label></li>
+    </ul>
+  </div>
+
+  <div class="box pack">
+    <h3>もうひとつのお楽しみ　—　朝のヨガ</h3>
+    <p><b>9月10日（木）の朝6:30。ビーチで琉球ヨーガ。3泊するので無料です。</b></p>
+    <p>朝日を浴びながら、沖縄の音楽でゆっくり体を動かします。1時間ほど。
+      雨の日はジムでやるので、中止になりません。</p>
+    <p style="font-size:16px;color:var(--ink-soft)">前の日までに申し込みが必要なので、こちらで済ませておきます。</p>
+  </div>
+</section>
+
+<!-- ========================= 最後に ========================= -->
+<section class="page">
+  <span class="daytag" style="background:var(--ink-faint)">おわりに</span>
+  <h2>まだ決まっていないこと</h2>
+  <p class="lede">当日、ホテルで聞いて決めることです。心配することではありません。</p>
+
+  <div class="small">
+    <div class="tw"><table>
+      <tr><th>いつ聞くか</th><th>聞くこと</th></tr>
+      <tr><td><b>9月8日（火）<br>朝8:30<br>窓口で</b></td>
+        <td>
+          ・青の洞窟に年齢の上限はあるか。おばあちゃん2人は参加できるか<br>
+          ・持病があると断られることはあるか<br>
+          ・泳げなくても参加できるか。案内の人が引っぱってくれるか<br>
+          ・青の洞窟は1日に何回、何時に出発するか<br>
+          ・波や風で中止になったとき、料金はどうなるか<br>
+          ・大樹（0歳）はハッピードルフィンに参加できるか。1組5名までに6人はどう入るか<br>
+          ・大樹はヨットに乗れるか<br>
+          ・SUPは中学生以上とあるが、大人が子どもを乗せられないか
+        </td></tr>
+      <tr><td>9月7日（月）<br>夜<br>フロントで</td>
+        <td>
+          ・ビーチに監視員はいるか。何時から何時までか<br>
+          ・水あそび用オムツでビーチに入れるか（プールは大丈夫と書いてあります）<br>
+          ・子ども用のシュノーケルマスクはあるか<br>
+          ・10日は何時まで部屋を使えるか
+        </td></tr>
+      <tr><td>現地で</td>
+        <td>・パーゴラルームの料金（案内に5,000円と4,400円の両方が出ています）</td></tr>
+    </table></div>
+
+    <p style="margin-top:26px">
+      <b>予定は変わってかまいません。</b>天気や、子どもたちの機嫌で動きます。
+      ここに書いてあるのは「こうだと気持ちよく回れる」という目安です。<br>
+      迷ったら、<b>おひるねの時間だけは守る</b>。それだけで1日がうまくいきます。</p>
+  </div>
+</section>
+
+<footer>
+  沖縄 家族旅行のしおり　／　2026年9月7日〜10日<br>
+  もとの資料：成果物／行程ざっくり案.html
+</footer>
+
+<script>
+(function(){
+  var dep = new Date(2026, 8, 7);           // 2026年9月7日
+  var ret = new Date(2026, 8, 10);          // 2026年9月10日
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var d = Math.round((dep - today) / 86400000);
+  var cn = document.getElementById('cn');
+  var cl = document.getElementById('cl');
+  if (!cn || !cl) return;
+  if (d > 0) {
+    cn.innerHTML = 'あと' + d + '<small>日</small>';
+    cl.textContent = 'しゅっぱつまで';
+  } else if (d === 0) {
+    cn.textContent = 'いよいよ今日';
+    cl.textContent = 'いってらっしゃい';
+  } else if (today <= ret) {
+    cn.textContent = '沖縄にいます';
+    cl.textContent = 'たのしんで';
+  } else {
+    cn.textContent = 'おかえりなさい';
+    cl.textContent = 'また行こうね';
+  }
+})();
+</script>
+
+</body>
+</html>
