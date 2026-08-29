@@ -140,6 +140,25 @@
   .tripnum b{font-family:"Reggae One",cursive;font-size:21px;color:var(--ink);font-variant-numeric:tabular-nums}
   .tripnum span{font-size:12px}
 
+  /* ---------- 音のボタン ---------- */
+  .soundbtn{
+    position:absolute;top:12px;right:14px;z-index:5;
+    appearance:none;border:2px solid rgba(255,255,255,.85);cursor:pointer;
+    background:rgba(10,60,80,.42);color:#fff;
+    font-family:inherit;font-weight:700;font-size:12px;line-height:1;
+    border-radius:999px;padding:9px 14px 8px;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    backdrop-filter:blur(3px);
+  }
+  .soundbtn .si{font-size:17px;line-height:1}
+  .soundbtn.off{opacity:.55}
+  .soundbtn.off .si{text-decoration:line-through}
+  .soundbtn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+  @media (max-width:560px){
+    .soundbtn{padding:12px 17px 11px;font-size:14px}
+    .soundbtn .si{font-size:21px}
+  }
+
   /* ---------- HUD ---------- */
   #hud{position:absolute;top:0;left:0;right:0;padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
   #hud[hidden]{display:none}
@@ -219,6 +238,10 @@
 <div id="app">
   <div id="stage">
     <canvas id="cv"></canvas>
+
+    <button id="soundBtn" class="soundbtn" type="button" aria-label="音のオンオフ">
+      <span class="si">♪</span><span class="st">おと</span>
+    </button>
 
     <div id="hud" hidden>
       <div>
@@ -360,6 +383,164 @@
     aloha: { key:"aloha", label:"アロハシャツ", effect:"とった点が 1.5ばい" },
     ukiwa: { key:"ukiwa", label:"うきわ",       effect:"1かいだけ 海から たすかる" }
   };
+
+  /* =========================================================
+     音（三線ふうの音を その場で作って鳴らす）
+     ※ 実在の曲は使っていません。琉球音階でつくったオリジナルです
+     ========================================================= */
+  const SOUND = (() => {
+    // 琉球音階（ドミファソシ）。沖縄らしい響きの、音のならび
+    const SCALE = [0,4,5,7,11,12,16,17,19,23,24];
+    const ROOT = 261.63;                       // ド
+    const BPM = 108, STEP = 60 / BPM / 2;      // 8分音符
+
+    // 4小節ぶんの ふし。-1 は お休み
+    const MEL = [
+      7,7,4,5,  7,-1,11,-1,
+      12,11,7,5, 4,-1,-1,-1,
+      5,7,11,12, 16,-1,12,11,
+      7,5,4,0,  4,-1,-1,-1
+    ];
+    const BASS = [0,-1,-1,-1, 7,-1,-1,-1, 5,-1,-1,-1, 7,-1,-1,-1,
+                  0,-1,-1,-1, 7,-1,-1,-1, 4,-1,-1,-1, 0,-1,-1,-1];
+
+    let ac = null, master = null, mus = null, sfx = null;
+    let on = true, timer = null, step = 0, next = 0, running = false;
+    try { on = localStorage.getItem("umi.sound") !== "off"; } catch(e){}
+
+    const hz = semi => ROOT * Math.pow(2, semi / 12);
+
+    function ensure(){
+      if (ac) return true;
+      try {
+        ac = new (window.AudioContext || window.webkitAudioContext)();
+        master = ac.createGain(); master.gain.value = on ? 1 : 0; master.connect(ac.destination);
+        mus = ac.createGain(); mus.gain.value = 0.22; mus.connect(master);
+        sfx = ac.createGain(); sfx.gain.value = 0.34; sfx.connect(master);
+        return true;
+      } catch(e){ ac = null; return false; }
+    }
+
+    // 三線ふうの はじく音
+    function pluck(freq, t, dur, vol, dest, bright){
+      const o1 = ac.createOscillator(), o2 = ac.createOscillator();
+      const f = ac.createBiquadFilter(), g = ac.createGain();
+      o1.type = "sawtooth"; o2.type = "triangle";
+      o1.frequency.setValueAtTime(freq * 1.9, t);          // 弦をはじいた瞬間の高い成分
+      o1.frequency.exponentialRampToValueAtTime(freq, t + 0.05);
+      o2.frequency.setValueAtTime(freq, t);
+      f.type = "lowpass";
+      f.frequency.setValueAtTime(1500 * (bright || 1), t);
+      f.frequency.exponentialRampToValueAtTime(520, t + dur * 0.85);
+      f.Q.value = 3.2;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o1.connect(f); o2.connect(f); f.connect(g); g.connect(dest || mus);
+      o1.start(t); o2.start(t); o1.stop(t + dur + 0.05); o2.stop(t + dur + 0.05);
+    }
+
+    // 太鼓
+    function drum(t, vol){
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(150, t);
+      o.frequency.exponentialRampToValueAtTime(52, t + 0.13);
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+      o.connect(g); g.connect(mus); o.start(t); o.stop(t + 0.24);
+    }
+
+    function tick(){
+      if (!ac) return;
+      while (next < ac.currentTime + 0.22){
+        const i = step % MEL.length;
+        const m = MEL[i], b = BASS[i];
+        if (m >= 0) pluck(hz(m), next, 0.42, 0.5, mus, 1);
+        if (b >= 0) pluck(hz(b - 24), next, 0.7, 0.42, mus, 0.5);
+        if (i % 2 === 0) drum(next, i % 8 === 0 ? 0.5 : 0.26);
+        next += STEP; step++;
+      }
+    }
+
+    function start(){
+      if (!ensure() || running) return;
+      if (ac.state === "suspended") ac.resume();
+      running = true; step = 0; next = ac.currentTime + 0.1;
+      tick();
+      timer = setInterval(tick, 60);
+    }
+    function stop(){
+      running = false;
+      if (timer){ clearInterval(timer); timer = null; }
+    }
+
+    function note(freq, dur, vol, type){
+      if (!ac || !on) return;
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || "triangle";
+      o.frequency.setValueAtTime(freq, ac.currentTime);
+      g.gain.setValueAtTime(0.0001, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(vol, ac.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + dur);
+      o.connect(g); g.connect(sfx);
+      o.start(); o.stop(ac.currentTime + dur + 0.03);
+    }
+
+    const se = {
+      jump(){ if (!ac || !on) return;
+        const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
+        o.type = "triangle";
+        o.frequency.setValueAtTime(420, t);
+        o.frequency.exponentialRampToValueAtTime(880, t + 0.11);
+        g.gain.setValueAtTime(0.22, t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+        o.connect(g); g.connect(sfx); o.start(t); o.stop(t + 0.16);
+      },
+      item(n){ if (!ac || !on) return;
+        pluck(hz(SCALE[Math.min(SCALE.length-1, 4 + (n||0))] + 12), ac.currentTime, 0.3, 0.5, sfx, 1.6);
+      },
+      gear(){ if (!ac || !on) return;
+        [0,4,7,12].forEach((d,i) => pluck(hz(d+12), ac.currentTime + i*0.07, 0.35, 0.45, sfx, 1.5));
+      },
+      ride(){ if (!ac || !on) return;
+        [0,5,7,12,16].forEach((d,i) => pluck(hz(d+12), ac.currentTime + i*0.055, 0.4, 0.4, sfx, 1.8));
+      },
+      cheer(){ if (!ac || !on) return;
+        [0,4,7,12,16,19,24].forEach((d,i) => pluck(hz(d), ac.currentTime + i*0.085, 0.6, 0.55, sfx, 1.7));
+      },
+      dead(){ if (!ac || !on) return;
+        const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
+        o.type = "sawtooth";
+        o.frequency.setValueAtTime(330, t);
+        o.frequency.exponentialRampToValueAtTime(70, t + 0.6);
+        g.gain.setValueAtTime(0.24, t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+        o.connect(g); g.connect(sfx); o.start(t); o.stop(t + 0.75);
+      }
+    };
+
+    // 画面に最初にさわった時に呼ぶ。ブラウザは「人がさわる前」に音を出せない決まりになっている
+    function wake(){
+      if (!ensure()) return;
+      if (ac.state === "suspended") ac.resume();
+      if (on) start();
+    }
+
+    function toggle(){
+      on = !on;
+      try { localStorage.setItem("umi.sound", on ? "on" : "off"); } catch(e){}
+      if (ensure()){
+        if (ac.state === "suspended") ac.resume();
+        master.gain.setTargetAtTime(on ? 1 : 0, ac.currentTime, 0.05);
+        if (on) start(); else setTimeout(stop, 400);
+      }
+      return on;
+    }
+    const isOn = () => on;
+
+    return { start, stop, wake, se, toggle, isOn, ensure };
+  })();
 
   /* =========================================================
      沖縄の地図（走った距離＝本島のどこまで来たか）
@@ -635,9 +816,11 @@
     if (g.onGround || g.coyote > 0){
       g.vy = g.has.hat ? JUMP_HAT : JUMP;
       g.jumps = 1; g.onGround = false; g.coyote = 0; g.holdT = 0; puff();
+      SOUND.se.jump();
       if (navigator.vibrate) navigator.vibrate(8);
     } else if (g.jumps === 1){
       g.vy = JUMP2; g.jumps = 2; g.holdT = 0; puff();
+      SOUND.se.jump();
       if (navigator.vibrate) navigator.vibrate(8);
     } else g.buffer = 0.12;
   }
@@ -649,6 +832,7 @@
   const banner = txt => { g.banner = { text:txt, life:2.6 }; };
   function cheer(text, sub, colors){
     g.cheer = { text, sub, life:3.4 };
+    SOUND.se.cheer();
     for (let i = 0; i < 90; i++)
       g.sparks.push({
         x: Math.random()*W, y: -20 - Math.random()*120,
@@ -688,6 +872,7 @@
         g.ride = { t:0, dur:6.5, base:d.base };
         g.jumps = 0; g.vy = 0;
         toast("イルカに のった！ しばらく 落ちません");
+        SOUND.se.ride();
         for (let i = 0; i < 26; i++)
           g.sparks.push({ x:PLAYER_X, y:g.py+20, vx:(Math.random()-.5)*300, vy:-70-Math.random()*230, life:.8, c:"#BDF3EA" });
         if (navigator.vibrate) navigator.vibrate([14,60,14]);
@@ -755,6 +940,7 @@
         const got = Math.round(it.kind.pts * mult);
         g.bonus += got;
         toast(it.kind.label + " +" + got + "m" + (g.combo > 1 ? "（" + g.combo + "れんぞく）" : ""));
+        SOUND.se.item(g.combo);
         for (let i = 0; i < 12; i++)
           g.sparks.push({ x:it.x - g.camX, y:it.y, vx:(Math.random()-.5)*280, vy:-60-Math.random()*210, life:.6,
             c: it.kind === ITEMS.shisa ? "#FFC53D" : "#fff" });
@@ -768,6 +954,7 @@
       if (Math.abs(it.x - wx) < 30 && Math.abs(it.y - g.py) < 38){
         it.got = true; g.has[it.key] = true;
         toast(GEARS[it.key].label + " を つけた！" + GEARS[it.key].effect);
+        SOUND.se.gear();
         paintGear();
         for (let i = 0; i < 18; i++)
           g.sparks.push({ x:it.x - g.camX, y:it.y, vx:(Math.random()-.5)*320, vy:-80-Math.random()*240, life:.75, c:"#FFC53D" });
@@ -831,6 +1018,7 @@
         g.camX = target.x + 40 - PLAYER_X;
         g.py = target.top - PR - 70; g.vy = 0; g.jumps = 0;
         toast("うきわが たすけてくれた！");
+        SOUND.se.gear();
         for (let i = 0; i < 24; i++)
           g.sparks.push({ x:PLAYER_X, y:g.py, vx:(Math.random()-.5)*340, vy:-100-Math.random()*220, life:.8, c:"#7FE3D4" });
       } else gameOver();
@@ -1309,19 +1497,20 @@
     document.getElementById("hudTarget").textContent =
       lead && lead.name !== player ? "1い " + lead.name + " " + km(lead.best) + "km"
       : (bestOf(player) ? "じこベスト " + km(bestOf(player)) + "km" : "");
+    SOUND.start();
     running = true; last = performance.now(); raf = requestAnimationFrame(loop);
   }
 
   async function gameOver(){
     if (g.dead) return;
     g.dead = true; running = false; cancelAnimationFrame(raf); g.shake = 1; draw();
+    SOUND.se.dead();   // BGMは止めない（ページを開いているあいだ ずっと流す）
 
     const total = g.dist + g.bonus;
     const prev = bestOf(player);
     const isRecord = total > prev;
     const beforeTop = ranked()[0];
 
-    // 画面はすぐ更新して、送信は後ろで行う
     state.total = (state.total||0) + 1;
     state.sum = (state.sum||0) + total;
     if (isRecord){
@@ -1393,6 +1582,23 @@
     }
   });
   window.addEventListener("keyup", e => { if (e.code === "Space" || e.code === "ArrowUp") release(); });
+  const soundBtn = document.getElementById("soundBtn");
+  function paintSound(){
+    soundBtn.classList.toggle("off", !SOUND.isOn());
+    soundBtn.querySelector(".st").textContent = SOUND.isOn() ? "おと" : "むおん";
+  }
+  soundBtn.addEventListener("pointerdown", e => { e.stopPropagation(); });
+  soundBtn.addEventListener("click", e => {
+    e.stopPropagation(); e.preventDefault();
+    SOUND.toggle(); paintSound();
+  });
+
+  paintSound();
+  // 最初に画面をさわった時点でBGMを流しはじめる
+  const wakeSound = () => SOUND.wake();
+  window.addEventListener("pointerdown", wakeSound, { once:true, capture:true });
+  window.addEventListener("keydown",     wakeSound, { once:true, capture:true });
+
   startBtn.addEventListener("click", () => { if (player) start(); });
   document.getElementById("againBtn").addEventListener("click", start);
   document.getElementById("backBtn").addEventListener("click", () => {
@@ -1434,7 +1640,7 @@
 
   /* ---------- 起動 ---------- */
   window.addEventListener("DOMContentLoaded", () => {
-    resize(); paintNames(); paintBoards(player); paintNote();
+    resize(); paintNames(); paintBoards(player); paintNote(); paintSound();
     newGame(); draw();
     paintGuides();
     pull();
