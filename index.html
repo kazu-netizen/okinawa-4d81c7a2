@@ -2,768 +2,1452 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>沖縄 家族旅行のしおり</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="theme-color" content="#04283f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>おきなわ 家族旅行のしおり</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐠</text></svg>">
 <style>
-/* ===== 外部の読み込みは一切なし。この1ファイルだけで開けます ===== */
+/* ========================================================================
+   おきなわ 家族旅行のしおり ／ 海の中に潜っていく体験
+   外部の読み込みは写真（img/）だけ。フォント・ライブラリは一切なし。
+   ======================================================================== */
+
 :root{
-  --paper:#fbf8f1;        /* 生成りの紙 */
-  --card:#ffffff;
-  --ink:#232b2e;
-  --ink-soft:#4f5a5e;
-  --ink-faint:#7f8a8e;
-  --rule:#d9d2c4;
-  --sea:#0d6a7a;          /* 海 */
-  --sea-mid:#2f9bad;
-  --sky:#bfe6ec;          /* 空 */
-  --sand:#f0e3c9;         /* 砂 */
-  --coral:#c9603f;        /* 差し色（さんご） */
-  --go:#2f6b4a;
-  --go-soft:#e9f2ec;
-  --warn:#8a6a1f;
-  --warn-soft:#fdf5e2;
+  /* 海の色 */
+  --abyss:#02121f;
+  --deep:#04283f;
+  --mid:#065b7d;
+  --shallow:#0e93aa;
+  --shoal:#43c8d4;
+  --foam:#c9f2f6;
+
+  /* 文字 */
+  --ink:#f0fbfd;
+  --ink-soft:#b8dbe6;
+  --ink-faint:#8ab6c6;
+
+  /* 金（ゴージャスの芯） */
+  --gold:#eed9a0;
+  --gold-mid:#d9b661;
+  --gold-deep:#a67f2e;
+
+  /* 差し色 */
+  --coral:#ff8563;
+  --coral-deep:#e0512b;
+
   --serif:'Hiragino Mincho ProN','Yu Mincho','YuMincho','MS PMincho',serif;
   --sans:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;
+
+  --depth:0;              /* 0=水面 1=深海（スクロールで変わる） */
+  --safe-b:env(safe-area-inset-bottom,0px);
 }
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{
-  margin:0;background:var(--paper);color:var(--ink);
+  margin:0;color:var(--ink);
   font-family:var(--sans);
-  font-size:18px;             /* 老眼鏡なしで読める基準 */
-  line-height:1.9;letter-spacing:.02em;
-}
-h1,h2,h3,.mincho{font-family:var(--serif);font-weight:700}
-
-.page{max-width:820px;margin:0 auto;padding:56px 24px 72px}
-.page + .page{border-top:8px solid var(--sky)}
-
-/* ---------- 表紙 ---------- */
-.cover{
-  background:linear-gradient(180deg,#dff2f6 0%,#a9dfe8 42%,#3fa3b5 78%,#0d6a7a 100%);
-  color:#fff;text-align:center;padding:70px 24px 60px;max-width:none;
-}
-.cover .inner{max-width:640px;margin:0 auto}
-.cover .eyebrow{letter-spacing:.4em;font-size:14px;opacity:.9;margin:0 0 26px}
-.cover h1{font-size:clamp(38px,10vw,68px);line-height:1.25;margin:0 0 6px;
-  text-shadow:0 2px 12px rgba(0,60,70,.25)}
-.cover .sub{font-family:var(--serif);font-size:clamp(19px,4.4vw,26px);margin:0 0 34px;opacity:.96}
-.cover .wave{font-size:30px;letter-spacing:.3em;margin:0 0 30px;opacity:.85}
-.count{
-  display:inline-block;background:rgba(255,255,255,.94);color:var(--sea);
-  border-radius:6px;padding:20px 34px;margin:0 0 34px;min-width:250px;
-}
-.count .cn{font-family:var(--serif);font-size:60px;line-height:1;display:block}
-.count .cn small{font-size:22px;margin-left:4px}
-.count .cl{font-size:15px;color:var(--ink-soft);letter-spacing:.14em;display:block;margin-top:6px}
-.names{background:rgba(255,255,255,.2);border-radius:6px;padding:20px 18px;margin:0 auto;max-width:520px}
-.names .nt{font-size:14px;letter-spacing:.2em;opacity:.9;margin:0 0 10px}
-.names ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px}
-.names li{font-family:var(--serif);font-size:20px}
-.names li small{font-size:13px;opacity:.85;margin-left:3px;font-family:var(--sans)}
-.cover .place{margin:30px 0 0;font-size:17px;opacity:.95}
-
-/* ---------- 見出し ---------- */
-.daytag{display:inline-block;background:var(--sea);color:#fff;border-radius:4px;
-  padding:6px 16px;font-size:16px;letter-spacing:.1em;margin:0 0 14px;font-weight:700}
-h2{font-size:clamp(26px,5.6vw,36px);line-height:1.45;margin:0 0 10px;color:var(--sea)}
-.theme{font-family:var(--serif);font-size:20px;color:var(--coral);margin:0 0 6px}
-.lede{color:var(--ink-soft);font-size:17px;margin:0 0 30px}
-
-/* ---------- 予定リスト ---------- */
-.sched{list-style:none;padding:0;margin:0 0 30px}
-.sched li{display:flex;gap:18px;padding:16px 4px;border-bottom:1px solid var(--rule);align-items:flex-start}
-.sched li:first-child{border-top:2px solid var(--sea)}
-.sched .tm{flex:0 0 108px;font-family:var(--serif);font-size:21px;color:var(--sea);line-height:1.35;padding-top:1px}
-.sched .bd{flex:1 1 auto}
-.sched .ttl{font-size:19px;font-weight:700;line-height:1.6}
-.sched .note{font-size:16px;color:var(--ink-soft);margin-top:3px;line-height:1.75}
-.sched li.rest{background:var(--sand)}
-.sched li.rest .tm,.sched li.rest .ttl{color:#7a5c27}
-.sched li.star{background:#fff5ee;border-left:6px solid var(--coral);padding-left:14px}
-.tagwho{display:inline-block;font-size:14px;background:var(--sky);color:#0b525f;
-  border-radius:3px;padding:1px 10px;margin-right:8px;font-weight:700;white-space:nowrap}
-
-/* ---------- 箱 ---------- */
-.box{background:var(--card);border:1px solid var(--rule);border-radius:5px;padding:24px 26px;margin:0 0 22px}
-.box h3{font-size:20px;margin:0 0 12px;line-height:1.5}
-.box p{margin:0 0 12px;font-size:17px}
-.box p:last-child{margin-bottom:0}
-.box.tide{background:var(--sky);border-color:#8fcdd8}
-.box.tide h3{color:#0b525f}
-.box.pack{background:var(--warn-soft);border-color:#e6d5a8}
-.box.soft{background:#f2f7f4;border-color:#cfe0d6}
-
-/* 一番大事なところ（このしおりで唯一、強く目立たせる） */
-.alert{
-  background:#fff;border:4px solid var(--coral);border-radius:8px;
-  padding:30px 30px 26px;margin:0 0 26px;box-shadow:0 8px 26px rgba(201,96,63,.18)
-}
-.alert .lbl{display:inline-block;background:var(--coral);color:#fff;font-size:15px;
-  letter-spacing:.14em;padding:5px 14px;border-radius:3px;margin:0 0 16px;font-weight:700}
-.alert .huge{font-family:var(--serif);font-size:clamp(34px,8vw,54px);line-height:1.2;color:var(--coral);margin:0 0 10px}
-.alert .huge small{display:block;font-size:19px;color:var(--ink);margin-top:8px;font-family:var(--sans);font-weight:700}
-.alert p{font-size:17px;margin:0 0 12px}
-.alert p:last-child{margin-bottom:0}
-.alert ul{margin:6px 0 14px;padding-left:1.3em;font-size:17px}
-.alert ul li{margin:4px 0}
-
-/* ---------- チェックリスト ---------- */
-.check{list-style:none;padding:0;margin:0}
-.check li{border-bottom:1px dashed var(--rule)}
-.check label{display:flex;gap:14px;align-items:flex-start;padding:14px 2px;cursor:pointer}
-.check input{position:absolute;opacity:0;width:0;height:0}
-.check .bx{flex:0 0 26px;width:26px;height:26px;border:2px solid var(--sea);border-radius:4px;
-  background:#fff;margin-top:2px;position:relative}
-.check input:checked + .bx::after{content:"✓";position:absolute;left:3px;top:-6px;
-  font-size:24px;color:var(--sea);font-weight:700}
-.check .txt{flex:1 1 auto;font-size:18px;line-height:1.7}
-.check .txt small{display:block;font-size:15px;color:var(--ink-soft);margin-top:2px}
-
-/* ---------- 表 ---------- */
-.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{border-collapse:collapse;width:100%;font-size:17px;min-width:420px}
-th,td{text-align:left;padding:13px 12px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.7}
-th{font-family:var(--serif);font-size:16px;color:var(--sea);white-space:nowrap;border-bottom:2px solid var(--sea)}
-
-/* ---------- 子どもページ ---------- */
-.kids{background:#fffaf0}
-.kids h2{color:var(--coral)}
-.find{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
-.find li{background:#fff;border:3px solid var(--sand);border-radius:12px;text-align:center;padding:16px 8px 14px}
-.find .em{font-size:46px;line-height:1.1;display:block}
-.find .nm{font-size:20px;font-weight:700;margin-top:6px;font-family:var(--serif)}
-.find .bx2{display:inline-block;width:32px;height:32px;border:3px solid var(--sea-mid);
-  border-radius:6px;margin-top:10px;background:#fff}
-.kidsnote{font-size:20px;font-family:var(--serif);color:var(--coral);margin:26px 0 0;text-align:center;line-height:1.8}
-
-/* ---------- ゲーム（表紙の入口ボタン） ---------- */
-.gametop{
-  display:block;max-width:460px;margin:38px auto 0;text-decoration:none;
-  background:linear-gradient(180deg,#f08a5f 0%,#c9603f 100%);
-  color:#fff;border-radius:14px;padding:22px 22px 20px;text-align:center;
-  border:3px solid rgba(255,255,255,.85);
-  box-shadow:0 10px 30px rgba(0,50,60,.30);
-}
-.gametop .gt-lbl{display:block;font-size:14px;letter-spacing:.18em;opacity:.95;margin-bottom:8px}
-.gametop .gt-name{display:block;font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.3}
-.gametop .gt-sub{display:block;font-size:16px;margin-top:8px;opacity:.97;line-height:1.6}
-.gametop .gt-go{display:inline-block;margin-top:14px;background:#fff;color:#c9603f;
-  font-weight:700;font-size:17px;border-radius:999px;padding:9px 26px}
-.gametop:active{transform:translateY(2px)}
-
-/* ---------- ゲーム ---------- */
-.gamebtn{
-  display:block;text-align:center;text-decoration:none;
-  background:linear-gradient(180deg,var(--sea-mid) 0%,var(--sea) 100%);
-  color:#fff;font-family:var(--serif);font-size:24px;font-weight:700;
-  padding:22px 20px;border-radius:8px;margin:22px 0 8px;
-  box-shadow:0 6px 18px rgba(13,106,122,.25);line-height:1.5;
-}
-.gamebtn span{display:block;font-family:var(--sans);font-size:15px;font-weight:400;opacity:.92;margin-top:4px}
-.gamebtn:active{transform:translateY(1px)}
-.howto{list-style:none;padding:0;margin:0}
-.howto li{display:flex;gap:14px;align-items:flex-start;padding:12px 2px;border-bottom:1px dashed var(--rule)}
-.howto li:last-child{border-bottom:0}
-.howto .no{flex:0 0 34px;height:34px;border-radius:50%;background:var(--sky);color:#0b525f;
-  font-family:var(--serif);font-size:18px;font-weight:700;text-align:center;line-height:34px}
-.howto .tx{flex:1 1 auto;font-size:18px;line-height:1.7}
-.printonly{display:none}
-
-/* ---------- 最後 ---------- */
-.small{font-size:15px;color:var(--ink-soft);line-height:1.8}
-.small table{font-size:15px}
-footer{max-width:820px;margin:0 auto;padding:36px 24px 70px;font-size:14px;color:var(--ink-faint);text-align:center}
-
-/* ---------- スマホ ---------- */
-@media (max-width:560px){
-  body{font-size:17px}
-  .page{padding:40px 18px 52px}
-  .sched li{flex-direction:column;gap:4px}
-  .sched .tm{flex:none;font-size:22px}
-  .alert,.box{padding:20px 18px}
-  .cover{padding:52px 18px 46px}
+  font-size:16px;line-height:1.8;letter-spacing:.015em;
+  background:var(--deep);
+  overflow-x:hidden;
 }
 
-/* ---------- 印刷（A4縦・1日1ページ） ---------- */
-@media print{
-  @page{size:A4 portrait;margin:14mm}
-  html,body{background:#fff}
-  body{font-size:11.5pt;line-height:1.75}
-  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .page{max-width:none;padding:0;break-after:page;page-break-after:always}
-  .page:last-of-type{break-after:auto;page-break-after:always}
-  .page + .page{border-top:0}
-  .cover{padding:40mm 10mm;min-height:auto}
-  .cover h1{font-size:40pt}
-  .alert{box-shadow:none}
-  .sched li,.box,.alert,.find li,.check li{break-inside:avoid;page-break-inside:avoid}
-  .noprint{display:none}
-  .printonly{display:block}
-  .gamebtn{box-shadow:none;border:2px solid var(--sea)}
-  .gametop{box-shadow:none;margin-top:22px;padding:16px 18px}
-  .gametop .gt-go{display:none}          /* 紙では押せないので出さない */
-  .gametop .gt-name{font-size:20pt}
-  footer{padding:10mm 0 0}
+/* ============================ 海（固定背景） ============================ */
+#sea{position:fixed;inset:0;z-index:-3;overflow:hidden;background:var(--deep)}
+
+#sea .water{position:absolute;inset:0;transition:opacity .35s linear}
+#sea .w-shallow{
+  background:linear-gradient(180deg,#42bed2 0%,#1c9cb7 20%,#0b7996 46%,#055c7d 72%,#03415c 100%);
+  opacity:calc(1 - var(--depth));
+}
+#sea .w-deep{
+  background:linear-gradient(180deg,#075876 0%,#04405c 24%,#032f48 52%,#021f31 78%,#010e18 100%);
+  opacity:var(--depth);
+}
+
+/* 水面の光の網（コースティクス） */
+#sea .caustic{
+  position:absolute;inset:-30%;
+  mix-blend-mode:soft-light;pointer-events:none;
+  opacity:calc(.75 - var(--depth) * .55);
+}
+#sea .c1{
+  background:
+    radial-gradient(60% 38% at 22% 18%,rgba(255,255,255,.75),transparent 62%),
+    radial-gradient(48% 30% at 72% 32%,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(40% 26% at 45% 62%,rgba(255,255,255,.5),transparent 58%);
+  animation:causticA 19s ease-in-out infinite alternate;
+}
+#sea .c2{
+  background:
+    radial-gradient(52% 32% at 68% 14%,rgba(220,255,255,.6),transparent 60%),
+    radial-gradient(44% 28% at 28% 48%,rgba(200,250,255,.5),transparent 58%),
+    radial-gradient(36% 24% at 82% 72%,rgba(255,255,255,.45),transparent 56%);
+  animation:causticB 27s ease-in-out infinite alternate;
+}
+@keyframes causticA{
+  0%{transform:translate3d(-3%,-2%,0) scale(1.05) rotate(0deg)}
+  100%{transform:translate3d(4%,3%,0) scale(1.18) rotate(4deg)}
+}
+@keyframes causticB{
+  0%{transform:translate3d(3%,2%,0) scale(1.14) rotate(2deg)}
+  100%{transform:translate3d(-4%,-3%,0) scale(1.02) rotate(-3deg)}
+}
+
+/* 差し込む光のカーテン */
+#sea .rays{position:absolute;inset:-20% -10%;pointer-events:none;mix-blend-mode:screen;
+  opacity:calc(.5 - var(--depth) * .3)}
+#sea .ray{
+  position:absolute;top:-25%;height:150%;
+  background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(190,240,255,.16) 45%,transparent 82%);
+  filter:blur(9px);transform-origin:top center;
+}
+#sea .r1{left:8%;width:60px;animation:ray1 14s ease-in-out infinite alternate}
+#sea .r2{left:33%;width:110px;animation:ray2 18s ease-in-out infinite alternate}
+#sea .r3{left:62%;width:74px;animation:ray1 21s ease-in-out infinite alternate reverse}
+#sea .r4{left:85%;width:48px;animation:ray2 16s ease-in-out infinite alternate}
+@keyframes ray1{0%{opacity:.35;transform:rotate(9deg) translateX(-14px)}100%{opacity:.9;transform:rotate(13deg) translateX(18px)}}
+@keyframes ray2{0%{opacity:.9;transform:rotate(6deg) translateX(12px)}100%{opacity:.3;transform:rotate(2deg) translateX(-16px)}}
+
+/* 深くなるほど濃くなる青 */
+#sea .tint{position:absolute;inset:0;background:#01121f;opacity:calc(var(--depth) * .34)}
+
+/* 遠くを泳いでいく魚のかげ */
+#fish{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;
+  opacity:calc(.1 + var(--depth) * .3)}
+#fish svg{position:absolute;fill:#021926;animation:swim linear infinite}
+@keyframes swim{
+  0%{transform:translate3d(-22vw,0,0)}
+  100%{transform:translate3d(122vw,0,0)}
+}
+#fish svg.back{animation-name:swimBack}
+@keyframes swimBack{
+  0%{transform:translate3d(122vw,0,0) scaleX(-1)}
+  100%{transform:translate3d(-22vw,0,0) scaleX(-1)}
+}
+
+/* 泡と浮遊物 */
+#bubbles{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.bub{
+  position:absolute;bottom:-14vh;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.95),rgba(255,255,255,.28) 42%,rgba(255,255,255,.06) 68%,transparent 72%);
+  border:1px solid rgba(255,255,255,.3);
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  0%{transform:translate3d(0,0,0) scale(.85);opacity:0}
+  8%{opacity:.85}
+  50%{transform:translate3d(22px,-55vh,0) scale(1)}
+  92%{opacity:.7}
+  100%{transform:translate3d(-14px,-118vh,0) scale(1.1);opacity:0}
+}
+.mote{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:rgba(226,255,255,.75);box-shadow:0 0 4px rgba(180,240,255,.8);
+  animation:drift linear infinite;
+}
+@keyframes drift{
+  0%{transform:translate3d(0,0,0);opacity:0}
+  15%{opacity:.9}
+  85%{opacity:.6}
+  100%{transform:translate3d(-40px,-105vh,0);opacity:0}
+}
+
+/* ============================ 水深メーター ============================ */
+#depth{
+  position:fixed;right:8px;top:14vh;height:56vh;width:34px;z-index:40;
+  pointer-events:none;opacity:.85;
+}
+#depth .bar{
+  position:absolute;left:15px;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,.08));
+  border-radius:2px;
+}
+#depth .tick{position:absolute;left:9px;width:14px;height:1px;background:rgba(255,255,255,.35)}
+#depth .fish{
+  position:absolute;left:2px;font-size:19px;line-height:1;
+  transition:top .18s cubic-bezier(.22,.9,.3,1);
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.5));
+}
+#depth .val{
+  position:absolute;right:34px;white-space:nowrap;
+  font-size:11px;letter-spacing:.1em;color:var(--gold);
+  background:rgba(2,20,34,.55);padding:2px 7px;border-radius:20px;
+  border:1px solid rgba(238,217,160,.28);
+  transition:top .18s cubic-bezier(.22,.9,.3,1);
+}
+@media (max-width:400px){#depth{display:none}}
+
+/* ============================ 入口（潜る演出） ============================ */
+#gate{
+  position:fixed;inset:0;z-index:200;
+  background:#04283f url('img/sea-surface.jpg') center/cover no-repeat;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  transition:opacity .9s ease,transform 1.1s cubic-bezier(.6,0,.3,1),filter .9s ease;
+}
+#gate::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(3,40,66,.3),rgba(2,30,50,.66));}
+#gate .gi{position:relative;padding:0 26px}
+#gate .gt{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(46px,17vw,86px);line-height:1.08;margin:0;
+  letter-spacing:.14em;padding-left:.14em;
+  background:linear-gradient(180deg,#fff 0%,var(--gold) 62%,var(--gold-deep) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 18px rgba(0,30,50,.7));
+}
+#gate .gs{margin:14px 0 0;font-size:15px;letter-spacing:.34em;color:#eaf9fb;opacity:.95}
+#gate .gb{
+  display:inline-block;margin-top:38px;padding:15px 40px;
+  border:1px solid rgba(238,217,160,.75);border-radius:999px;
+  background:rgba(255,255,255,.1);
+  color:var(--gold);font-size:15px;letter-spacing:.24em;
+  animation:pulseGate 2.4s ease-in-out infinite;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+@keyframes pulseGate{0%,100%{transform:scale(1);opacity:.92}50%{transform:scale(1.045);opacity:1}}
+#gate.dive{opacity:0;transform:scale(1.7);filter:blur(14px);pointer-events:none}
+
+/* ============================ レイアウト ============================ */
+.wrap{max-width:680px;margin:0 auto;padding:0 15px 130px}
+section{margin:0 0 40px;scroll-margin-top:12px}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.3,1)}
+.rv.on{opacity:1;transform:none}
+
+/* ---- 見出し ---- */
+.eyebrow{
+  display:inline-block;font-size:11.5px;letter-spacing:.28em;
+  color:var(--gold);border:1px solid rgba(238,217,160,.4);
+  padding:4px 13px;border-radius:999px;margin:0 0 12px;
+  background:rgba(2,25,42,.4);
+}
+h2{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(27px,7.6vw,36px);line-height:1.3;
+  margin:0 0 6px;letter-spacing:.04em;
+  background:linear-gradient(180deg,#ffffff 0%,#dff6fa 45%,var(--gold) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 10px rgba(0,25,45,.5));
+}
+h3{font-family:var(--serif);font-size:19px;font-weight:700;margin:0 0 10px;color:var(--gold)}
+.theme{margin:0 0 4px;font-size:15px;color:#8fe8f0;letter-spacing:.04em;
+  text-shadow:0 1px 7px rgba(1,25,42,.6)}
+.lede{margin:10px 0 20px;font-size:15.5px;color:#d5eef5;line-height:1.85;
+  text-shadow:0 1px 7px rgba(1,25,42,.6)}
+
+.rule{height:1px;margin:16px 0 22px;
+  background:linear-gradient(90deg,transparent,rgba(238,217,160,.55),transparent)}
+
+/* ---- カード ---- */
+.card{
+  position:relative;
+  background:linear-gradient(158deg,rgba(255,255,255,.14),rgba(255,255,255,.045) 55%,rgba(255,255,255,.08));
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:18px;padding:20px 17px;margin:0 0 15px;
+  box-shadow:0 16px 40px rgba(0,18,34,.34),inset 0 1px 0 rgba(255,255,255,.3);
+}
+.card::before{
+  content:'';position:absolute;left:22px;right:22px;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(238,217,160,.7),transparent);
+}
+.card p{margin:0 0 10px;font-size:15.5px}
+.card p:last-child{margin-bottom:0}
+.card.gold{border-color:rgba(238,217,160,.45);
+  background:linear-gradient(158deg,rgba(238,217,160,.16),rgba(255,255,255,.05) 60%,rgba(238,217,160,.09));}
+.card.coral{border-color:rgba(255,133,99,.45);
+  background:linear-gradient(158deg,rgba(255,133,99,.18),rgba(255,255,255,.05) 60%,rgba(255,133,99,.1));}
+.card.coral::before{background:linear-gradient(90deg,transparent,rgba(255,170,140,.8),transparent)}
+
+/* ---- 写真バンド（海に溶け込ませる） ---- */
+.photo{
+  position:relative;margin:0 -15px 20px;height:190px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 76%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 76%,transparent 100%);
+}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(1.15) contrast(1.05)}
+.photo::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(4,50,80,.35),rgba(2,30,50,.12) 50%,rgba(2,25,42,.45));
+}
+.photo .cap{
+  position:absolute;left:18px;bottom:26px;z-index:2;
+  font-family:var(--serif);font-size:15px;color:#fff;letter-spacing:.12em;
+  text-shadow:0 2px 10px rgba(0,20,40,.9);
+}
+.photo.tall{height:250px}
+
+/* ---- 予定表 ---- */
+.sched{list-style:none;margin:0;padding:0}
+.sched li{
+  display:flex;gap:12px;padding:13px 0;
+  border-bottom:1px solid rgba(255,255,255,.11);
+}
+.sched li:last-child{border-bottom:0;padding-bottom:0}
+.sched .tm{
+  flex:0 0 60px;font-size:14px;font-weight:700;color:var(--gold);
+  letter-spacing:.02em;line-height:1.45;padding-top:2px;
+}
+.sched .bd{flex:1;min-width:0}
+.sched .ttl{font-size:16px;font-weight:700;line-height:1.55;margin-bottom:3px}
+.sched .note{font-size:14px;color:var(--ink-soft);line-height:1.7}
+.sched li.star{
+  background:linear-gradient(90deg,rgba(238,217,160,.15),transparent 78%);
+  margin:0 -10px;padding-left:10px;padding-right:10px;border-radius:10px;
+}
+.sched li.star .ttl::before{content:'★ ';color:var(--gold)}
+.sched li.rest{opacity:.72}
+.who{
+  display:inline-block;font-size:11.5px;letter-spacing:.06em;line-height:1.7;
+  background:rgba(67,200,212,.22);border:1px solid rgba(67,200,212,.45);
+  color:#c5f5fa;padding:1px 9px;border-radius:999px;
+  margin:0 0 4px;font-weight:400;
+}
+.sched .ttl .who{display:table;}   /* 名前タグは1行目に単独で置く（本文の改行が崩れないように） */
+
+/* ---- 大きな注意 ---- */
+.bigwhen{
+  font-family:var(--serif);font-size:clamp(23px,6.4vw,30px);font-weight:700;
+  line-height:1.35;color:#fff;margin:2px 0 8px;letter-spacing:.02em;
+}
+.bigwhen small{display:block;font-family:var(--sans);font-size:14.5px;
+  font-weight:400;color:var(--ink-soft);margin-top:6px;letter-spacing:0}
+.tag{
+  display:inline-block;font-size:11.5px;letter-spacing:.2em;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#12222c;
+  padding:3px 13px;border-radius:999px;margin-bottom:11px;
+}
+.tag.c{background:linear-gradient(135deg,#ffb199,var(--coral-deep));color:#2a0f08}
+ul.plain{margin:8px 0 12px;padding-left:20px}
+ul.plain li{margin:5px 0;font-size:15px}
+.subnote{
+  background:rgba(2,25,42,.42);border-left:2px solid rgba(238,217,160,.5);
+  border-radius:0 8px 8px 0;padding:11px 13px;margin-top:13px;
+  font-size:14.5px;color:var(--ink-soft);line-height:1.75;
+}
+
+/* ---- 潮 ---- */
+.tide{
+  border-color:rgba(67,200,212,.4);
+  background:linear-gradient(158deg,rgba(67,200,212,.17),rgba(255,255,255,.04) 60%,rgba(67,200,212,.08));
+}
+.tide::before{background:linear-gradient(90deg,transparent,rgba(140,240,250,.7),transparent)}
+.tidebig{font-family:var(--serif);font-size:30px;font-weight:700;color:#b7f2f8;
+  letter-spacing:.03em;line-height:1.2}
+.tidebig small{font-size:14px;font-family:var(--sans);color:var(--ink-soft);
+  margin-left:8px;letter-spacing:0}
+
+/* ---- チェックリスト ---- */
+.chk{list-style:none;margin:0;padding:0}
+.chk li{border-bottom:1px solid rgba(255,255,255,.1)}
+.chk li:last-child{border-bottom:0}
+.chk label{display:flex;gap:12px;align-items:flex-start;
+  padding:13px 2px;cursor:pointer;min-height:46px}
+.chk input{position:absolute;opacity:0;width:0;height:0}
+.chk .bx{
+  flex:0 0 25px;height:25px;margin-top:2px;border-radius:7px;
+  border:1.5px solid rgba(238,217,160,.6);background:rgba(255,255,255,.07);
+  position:relative;transition:.18s;
+}
+.chk input:checked + .bx{
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  border-color:var(--gold);
+}
+.chk input:checked + .bx::after{
+  content:'';position:absolute;left:8px;top:3px;width:6px;height:12px;
+  border:solid #10202a;border-width:0 2.5px 2.5px 0;transform:rotate(43deg);
+}
+.chk .tx{flex:1;font-size:15.5px;line-height:1.6;transition:.18s}
+.chk .tx small{display:block;font-size:13px;color:var(--ink-faint);
+  margin-top:3px;line-height:1.65}
+.chk input:checked ~ .tx{opacity:.42;text-decoration:line-through;
+  text-decoration-color:rgba(238,217,160,.6)}
+
+.prog{margin:0 0 16px}
+.prog .pb{height:7px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.prog .pf{height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--shoal),var(--gold));transition:width .4s ease}
+.prog .pt{font-size:13px;color:var(--gold);letter-spacing:.08em;margin:7px 0 0}
+
+/* ---- 連絡先 ---- */
+.info{list-style:none;margin:0;padding:0}
+.info li{display:flex;gap:12px;padding:11px 0;
+  border-bottom:1px solid rgba(255,255,255,.1);font-size:15px}
+.info li:last-child{border-bottom:0}
+.info .k{flex:0 0 86px;color:var(--ink-faint);font-size:13.5px;padding-top:2px}
+.info .v{flex:1;min-width:0;line-height:1.65}
+.info b{color:#fff;letter-spacing:.02em}
+a.call,a.map{
+  display:inline-flex;align-items:center;gap:7px;
+  margin-top:8px;padding:9px 16px;border-radius:999px;
+  background:linear-gradient(135deg,rgba(67,200,212,.3),rgba(67,200,212,.15));
+  border:1px solid rgba(67,200,212,.55);color:#d3f7fb;
+  text-decoration:none;font-size:14.5px;min-height:42px;
+}
+a.call:active,a.map:active{transform:translateY(1px)}
+
+/* ---- ゲームボタン ---- */
+.game{
+  display:block;text-decoration:none;text-align:center;color:#0d1f28;
+  background:linear-gradient(135deg,#fbeecb 0%,var(--gold) 38%,var(--gold-mid) 70%,#f4e3b4 100%);
+  border-radius:18px;padding:19px 18px;margin:6px 0 4px;
+  box-shadow:0 14px 34px rgba(0,20,36,.45),inset 0 1px 0 rgba(255,255,255,.75);
+  position:relative;overflow:hidden;
+}
+.game::after{
+  content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);
+  animation:shine 4.2s ease-in-out infinite;
+}
+@keyframes shine{0%{left:-60%}55%,100%{left:130%}}
+.game .g1{display:block;font-size:11.5px;letter-spacing:.24em;opacity:.75}
+.game .g2{display:block;font-family:var(--serif);font-size:25px;font-weight:700;
+  margin:6px 0 4px;letter-spacing:.05em}
+.game .g3{display:block;font-size:13.5px;opacity:.82}
+.game:active{transform:translateY(2px)}
+
+/* ---- 子どもページ ---- */
+.find{list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.find li{
+  text-align:center;padding:13px 4px 11px;border-radius:15px;cursor:pointer;
+  background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.2);transition:.2s;user-select:none;
+  -webkit-user-select:none;
+}
+.find li .em{font-size:34px;line-height:1.15;display:block;
+  filter:drop-shadow(0 3px 6px rgba(0,20,40,.5))}
+.find li .nm{display:block;font-size:12.5px;margin-top:5px;color:var(--ink-soft)}
+.find li.got{
+  background:linear-gradient(160deg,rgba(238,217,160,.42),rgba(238,217,160,.16));
+  border-color:var(--gold);transform:scale(.97);
+}
+.find li.got::after{content:'みつけた！';display:block;font-size:11px;
+  color:var(--gold);margin-top:3px;letter-spacing:.06em}
+.find li.got .em{filter:none;transform:scale(1.06)}
+.kidsbig{font-family:var(--serif);font-size:19px;color:#fff;text-align:center;
+  margin:16px 0 0;letter-spacing:.06em}
+.kidsbig b{color:var(--gold);font-size:30px;margin:0 4px}
+
+/* ---- 折りたたみ ---- */
+details{
+  border:1px solid rgba(255,255,255,.2);border-radius:16px;
+  background:linear-gradient(158deg,rgba(255,255,255,.1),rgba(255,255,255,.035));
+  margin:0 0 13px;overflow:hidden;
+}
+summary{
+  padding:16px 17px;cursor:pointer;list-style:none;
+  font-family:var(--serif);font-size:17px;color:var(--gold);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  min-height:52px;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'▼';font-size:11px;color:var(--ink-faint);transition:transform .25s}
+details[open] summary::after{transform:rotate(180deg)}
+details .inner{padding:0 17px 18px;font-size:15px;color:var(--ink-soft);line-height:1.8}
+details .inner ul{margin:6px 0 0;padding-left:19px}
+details .inner li{margin:6px 0}
+
+/* ---- 表紙 ---- */
+#cover{padding:calc(11vh + 8px) 0 12px;text-align:center;position:relative}
+#cover .kanmuri{font-size:12px;letter-spacing:.5em;color:var(--gold);
+  margin:0 0 16px;opacity:.9;padding-left:.5em}
+#cover h1{
+  font-family:var(--serif);font-weight:700;margin:0;
+  font-size:clamp(52px,19vw,96px);line-height:1.02;letter-spacing:.1em;
+  background:linear-gradient(178deg,#ffffff 0%,#f0e2bb 40%,var(--gold) 66%,var(--gold-deep) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 5px 22px rgba(0,25,45,.65));
+  padding-left:.1em;
+}
+#cover .dates{margin:16px 0 0;font-size:15px;letter-spacing:.14em;color:#e2f7fb}
+#cover .nights{margin:5px 0 0;font-size:13px;letter-spacing:.2em;color:var(--ink-faint)}
+
+.countdown{display:flex;justify-content:center;gap:7px;margin:30px auto 0;max-width:340px}
+.cd{
+  flex:1;padding:11px 2px 9px;border-radius:13px;
+  background:linear-gradient(160deg,rgba(255,255,255,.17),rgba(255,255,255,.05));
+  border:1px solid rgba(238,217,160,.35);
+}
+.cd .n{display:block;font-family:var(--serif);font-size:27px;font-weight:700;
+  line-height:1.1;color:var(--gold);letter-spacing:.02em}
+.cd .u{display:block;font-size:10.5px;color:var(--ink-faint);margin-top:4px;letter-spacing:.14em}
+#cdlabel{margin:12px 0 0;font-size:12.5px;letter-spacing:.26em;color:var(--ink-soft)}
+#cdlabel.arrived{color:var(--gold);font-size:16px;font-family:var(--serif)}
+
+.crew{margin:30px 0 0}
+.crew .ct{font-size:11px;letter-spacing:.34em;color:var(--ink-faint);margin:0 0 12px}
+.crew ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;
+  gap:7px;justify-content:center}
+.crew li{
+  font-family:var(--serif);font-size:15.5px;letter-spacing:.06em;
+  padding:6px 15px;border-radius:999px;color:#fff;
+  background:linear-gradient(160deg,rgba(255,255,255,.19),rgba(255,255,255,.07));
+  border:1px solid rgba(255,255,255,.28);
+}
+.crew li small{font-size:10.5px;color:var(--gold);margin-left:5px;letter-spacing:0}
+
+.stay{margin:28px 0 0;font-size:15px;line-height:1.75}
+.stay b{font-family:var(--serif);font-size:18px;color:#fff;letter-spacing:.04em}
+.stay span{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:5px}
+
+.scrollhint{margin:34px 0 0;font-size:12px;letter-spacing:.22em;color:var(--ink-faint);
+  animation:hintFloat 2.6s ease-in-out infinite}
+@keyframes hintFloat{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
+
+/* ---- 下部ナビ ---- */
+#nav{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  background:linear-gradient(180deg,rgba(2,22,38,.74),rgba(1,14,24,.95));
+  backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);
+  border-top:1px solid rgba(238,217,160,.25);
+  padding:7px 0 calc(7px + var(--safe-b));
+  transform:translateY(115%);transition:transform .35s cubic-bezier(.2,.8,.3,1);
+}
+#nav.show{transform:none}
+#nav .row{display:flex;gap:5px;overflow-x:auto;padding:0 10px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#nav .row::-webkit-scrollbar{display:none}
+#nav a{
+  flex:0 0 auto;text-decoration:none;color:var(--ink-soft);
+  font-size:12.5px;letter-spacing:.06em;padding:9px 13px;border-radius:999px;
+  border:1px solid transparent;white-space:nowrap;min-height:38px;
+  display:flex;align-items:center;
+}
+#nav a.cur{color:#0f1f28;background:linear-gradient(135deg,var(--gold),var(--gold-mid));
+  font-weight:700}
+
+/* ---- フッター ---- */
+footer{
+  text-align:center;padding:40px 20px 20px;font-size:12.5px;
+  color:var(--ink-faint);letter-spacing:.1em;line-height:2;
+}
+footer .fl{width:60px;height:1px;margin:0 auto 18px;
+  background:linear-gradient(90deg,transparent,rgba(238,217,160,.6),transparent)}
+
+/* ---- 動きを減らす設定の人へ ---- */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+
+/* ---- 小さい画面 ---- */
+@media (max-width:360px){
+  body{font-size:15px}
+  .sched .tm{flex-basis:52px;font-size:13px}
+  .find li .em{font-size:29px}
+  .cd .n{font-size:23px}
+  .info .k{flex-basis:74px;font-size:12.5px}
+}
+/* ---- 大きい画面 ---- */
+@media (min-width:700px){
+  .photo{margin-left:0;margin-right:0;border-radius:20px;height:250px}
+  .photo.tall{height:330px}
 }
 </style>
 </head>
 <body>
 
-<!-- ========================= 表紙 ========================= -->
-<section class="page cover">
-  <div class="inner">
-    <p class="eyebrow">FAMILY TRIP</p>
-    <h1>おきなわ</h1>
-    <p class="sub">2026年9月7日（月）〜 9月10日（木）　3泊4日</p>
-    <p class="wave">〜　〜　〜</p>
+<!-- ===================== 海（背景） ===================== -->
+<div id="sea" aria-hidden="true">
+  <div class="water w-shallow"></div>
+  <div class="water w-deep"></div>
+  <div class="caustic c1"></div>
+  <div class="caustic c2"></div>
+  <div class="rays"><i class="ray r1"></i><i class="ray r2"></i><i class="ray r3"></i><i class="ray r4"></i></div>
+  <div class="tint"></div>
+</div>
+<div id="fish" aria-hidden="true"></div>
+<div id="bubbles" aria-hidden="true"></div>
 
-    <div class="count">
-      <span class="cn" id="cn">あと9<small>日</small></span>
-      <span class="cl" id="cl">しゅっぱつまで</span>
-    </div>
+<!-- ===================== 水深メーター ===================== -->
+<div id="depth" aria-hidden="true">
+  <div class="bar"></div>
+  <i class="tick" style="top:0"></i><i class="tick" style="top:25%"></i>
+  <i class="tick" style="top:50%"></i><i class="tick" style="top:75%"></i>
+  <i class="tick" style="top:100%"></i>
+  <span class="val" id="dval">0m</span>
+  <span class="fish" id="dfish">🐠</span>
+</div>
 
-    <div class="names">
-      <p class="nt">い っ し ょ に い く 人</p>
-      <ul>
-        <li>一貴</li>
-        <li>鈴依奈</li>
-        <li>久美</li>
-        <li>富美枝</li>
-        <li>鈴花<small>2さい</small></li>
-        <li>大樹<small>0さい</small></li>
-      </ul>
-    </div>
-
-    <p class="place">恩納村　ルネッサンス リゾート オキナワ<br>
-      <span style="font-size:15px;opacity:.9">海の目の前。イルカがいるホテルです。</span></p>
-
-    <a class="gametop" href="./game.html" target="_blank" rel="noopener">
-      <span class="gt-lbl">い ま す ぐ あ そ べ ま す</span>
-      <span class="gt-name">沖縄うみチャリ走</span>
-      <span class="gt-sub">家族6人で きょりを 競うゲーム</span>
-      <span class="gt-go">ここを押して あそぶ</span>
-    </a>
-    <p class="printonly" style="max-width:460px;margin:12px auto 0;font-size:15px;color:#0b525f;background:#fff;border-radius:6px;padding:10px 14px">
-      紙で見ている人は、<b>家族のグループに貼ってあるリンク</b>から開いてください。
-    </p>
+<!-- ===================== 入口 ===================== -->
+<div id="gate">
+  <div class="gi">
+    <p class="gt">おきなわ</p>
+    <p class="gs">2026　9.7 → 9.10</p>
+    <div class="gb">タ ッ プ し て 海 へ</div>
   </div>
+</div>
+
+<div class="wrap">
+
+<!-- ===================== 表紙 ===================== -->
+<section id="cover">
+  <p class="kanmuri">F A M I L Y　T R I P</p>
+  <h1>おきなわ</h1>
+  <p class="dates">2026年9月7日（月）— 9月10日（木）</p>
+  <p class="nights">3 泊 4 日</p>
+
+  <div class="countdown">
+    <div class="cd"><span class="n" id="cdD">–</span><span class="u">にち</span></div>
+    <div class="cd"><span class="n" id="cdH">–</span><span class="u">じかん</span></div>
+    <div class="cd"><span class="n" id="cdM">–</span><span class="u">ふん</span></div>
+    <div class="cd"><span class="n" id="cdS">–</span><span class="u">びょう</span></div>
+  </div>
+  <p id="cdlabel">し ゅ っ ぱ つ ま で</p>
+
+  <div class="crew">
+    <p class="ct">い っ し ょ に い く 人</p>
+    <ul>
+      <li>一貴</li><li>鈴依奈</li><li>久美</li><li>富美枝</li>
+      <li>鈴花<small>2さい</small></li><li>大樹<small>0さい</small></li>
+    </ul>
+  </div>
+
+  <p class="stay">
+    <b>ルネッサンス リゾート オキナワ</b>
+    <span>恩納村・海の目の前。イルカがいるホテルです。</span>
+  </p>
+
+  <p class="scrollhint">↓　ス ク ロ ー ル で 深 く 潜 る</p>
 </section>
 
-<!-- ========================= これだけは忘れない ========================= -->
-<section class="page">
-  <span class="daytag">いちばん大事なページ</span>
-  <h2>これだけは、忘れないでください</h2>
+<div class="photo tall rv">
+  <img src="img/sea-surface.jpg" alt="沖縄の海。水面のすぐ下を魚が泳いでいる" loading="lazy">
+  <span class="cap">こ の 海 に、9 月 に 行 き ま す</span>
+</div>
+
+<!-- ===================== 忘れないで ===================== -->
+<section id="must" class="rv">
+  <span class="eyebrow">い ち ば ん 大 事</span>
+  <h2>これだけは、忘れない</h2>
   <p class="lede">この2つさえ守れば、あとは流れで大丈夫です。</p>
 
-  <div class="alert">
-    <span class="lbl">その1</span>
-    <div class="huge">9月8日（火）朝 8:30
-      <small>アクティビティカウンターへ。開くと同時に行く</small></div>
-    <p><b>ここで、やりたいこと全部を申し込みます。</b></p>
-    <ul>
-      <li>青の洞窟シュノーケリング（おばあちゃん2人）</li>
+  <div class="card gold">
+    <span class="tag">そ の 1</span>
+    <p class="bigwhen">9月8日（火）朝 8:30
+      <small>アクティビティカウンター。開くと同時に行く</small></p>
+    <p><b>やりたいこと全部を、ここで申し込みます。</b></p>
+    <ul class="plain">
+      <li>青の洞窟シュノーケリング（久美さん・富美枝さん）</li>
       <li>ハッピードルフィン（イルカにさわる）</li>
       <li>ドルフィンスプラッシュ（イルカのジャンプ）</li>
       <li>SUP</li>
       <li>ヨットでサンセット</li>
-      <li><b>10日（木）朝6:30の ビーチヨガ</b></li>
+      <li>10日（木）朝6:30の ビーチヨガ</li>
     </ul>
-    <p><b>電話では予約できないことが分かっています。</b>ホテルの窓口に行くしか方法がありません。
-      窓口は8:30に開いて、17:00に閉まります。
-      <b>7日（月）は夜に着くので、8日の朝がいちばん早いチャンスです。</b></p>
-    <p style="background:#fff5ee;padding:12px 14px;border-radius:4px;margin-top:14px">
-      <b>もし埋まっていたら</b>　青の洞窟は9日の午前に。イルカは9日に（9:30と15:00の2回あります）。
-      それも無理なら「クマノミ号クルーズ」か「はりゅう船」に切りかえます。どちらも毎日やっていて、子どもも全員乗れます。</p>
+    <div class="subnote">
+      <b>電話では予約できません。</b>窓口に行くしか方法がなく、8:30〜17:00 しか開いていません。
+      7日は夜に着くので、<b>8日の朝がいちばん早いチャンス</b>です。
+    </div>
+    <div class="subnote" style="border-left-color:rgba(255,133,99,.6)">
+      <b>もし埋まっていたら</b><br>
+      青の洞窟 → 9日の午前へ。イルカ → 9日（9:30と15:00の2回）へ。<br>
+      それも無理なら「クマノミ号クルーズ」か「はりゅう船」。どちらも毎日あって、子どもも全員乗れます。
+    </div>
   </div>
 
-  <div class="alert" style="border-color:var(--sea);box-shadow:0 8px 26px rgba(13,106,122,.15)">
-    <span class="lbl" style="background:var(--sea)">その2</span>
-    <div class="huge" style="color:var(--sea)">9月9日（水）の夜
-      <small>翌朝6:30のヨガ、申し込めているか最終確認</small></div>
-    <p>ビーチヨガは<b>前日までの申し込み</b>が必要です。<b>3泊するので今回は無料</b>。
-      朝日を浴びながら海辺でやります。雨でもジムでやるので中止になりません。</p>
-    <p style="color:var(--ink-soft);font-size:16px">寝る前に「明日のヨガ、大丈夫だよね？」と一声かけるだけで済みます。</p>
+  <div class="card coral">
+    <span class="tag c">そ の 2</span>
+    <p class="bigwhen">9月9日（水）の 夜
+      <small>翌朝6:30のヨガ、申し込めているか最終確認</small></p>
+    <p>ビーチヨガは<b>前日までの申し込み</b>が必要です。3泊するので<b>今回は無料</b>。
+      雨でもジムでやるので中止になりません。</p>
+    <div class="subnote">寝る前に「明日のヨガ、大丈夫だよね？」と一声かけるだけ。</div>
   </div>
 </section>
 
-<!-- ========================= 1日目 ========================= -->
-<section class="page">
-  <span class="daytag">1日目　9月7日（月）</span>
+<a class="game rv" href="./game.html" target="_blank" rel="noopener">
+  <span class="g1">い ま す ぐ あ そ べ ま す</span>
+  <span class="g2">沖縄うみチャリ走</span>
+  <span class="g3">家族6人で 走った距離を競うゲーム</span>
+</a>
+
+<!-- ===================== 1日目 ===================== -->
+<section id="d1" class="rv">
+  <span class="eyebrow">1 日 目 　 9 / 7 （ 月 ）</span>
   <h2>着いた日</h2>
   <p class="theme">那覇でお買いもの。暗くなる前にホテルへ</p>
-  <p class="lede">今日は移動の日。無理せず、早めにごはんを食べてホテルに向かいます。</p>
+  <div class="rule"></div>
 
-  <ul class="sched">
-    <li><div class="tm">13:20</div><div class="bd">
-      <div class="ttl">那覇空港に到着</div>
-      <div class="note">福岡 11:30発（NH1207）。荷物を受け取ります</div></div></li>
-    <li><div class="tm">〜14:00</div><div class="bd">
-      <div class="ttl">レンタカーのバス乗り場へ</div>
-      <div class="note">乗り場は「<b>11-B</b>」。無料の送迎バスが15分おき、お店まで20分ほど</div></div></li>
-    <li><div class="tm">14:00</div><div class="bd">
-      <div class="ttl">レンタカーを受け取る</div>
-      <div class="note">チャイルドシートは2列目に鈴花、3列目に大樹。荷物を積みます</div></div></li>
-    <li><div class="tm">15:15</div><div class="bd">
-      <div class="ttl">国際通りに到着</div>
-      <div class="note">車は「県民広場地下駐車場」に。国際通りの入口まで歩いて1分です</div></div></li>
-    <li class="star"><div class="tm">15:15<br>〜16:45</div><div class="bd">
-      <div class="ttl">お買いもの（1時間半）</div>
-      <div class="note"><b>オリオンビールのTシャツを家族みんなの分。</b>おみやげ。<br>
-        魚肉ソーセージはスーパーかコンビニで</div></div></li>
-    <li><div class="tm">17:00</div><div class="bd">
-      <div class="ttl">那覇で早めの夕ごはん</div>
-      <div class="note">子どもたちがいつもの時間に食べられるように、早めにします</div></div></li>
-    <li><div class="tm">18:15</div><div class="bd">
-      <div class="ttl">恩納村のホテルへ出発</div>
-      <div class="note">高速で1時間〜1時間20分。<b>子どもたちは車で寝てしまってOK</b></div></div></li>
-    <li><div class="tm">19:30</div><div class="bd">
-      <div class="ttl">ホテル到着・チェックイン</div>
-      <div class="note">フロントで「10日は何時まで部屋を使えますか」と聞いておきます</div></div></li>
-  </ul>
+  <div class="card">
+    <ul class="sched">
+      <li><div class="tm">13:20</div><div class="bd">
+        <div class="ttl">那覇空港に到着</div>
+        <div class="note">福岡 11:30発（NH1207）。荷物を受け取ります</div></div></li>
+      <li><div class="tm">〜14:00</div><div class="bd">
+        <div class="ttl">レンタカーの送迎バスへ</div>
+        <div class="note">乗り場は <b>11-B</b>。15分おき、お店まで20分ほど</div></div></li>
+      <li><div class="tm">14:00</div><div class="bd">
+        <div class="ttl">レンタカーを受け取る</div>
+        <div class="note">チャイルドシートは2列目に鈴花、3列目に大樹</div></div></li>
+      <li><div class="tm">15:15</div><div class="bd">
+        <div class="ttl">国際通りに到着</div>
+        <div class="note">車は県民広場地下駐車場。入口まで歩いて1分</div></div></li>
+      <li class="star"><div class="tm">15:15<br>16:45</div><div class="bd">
+        <div class="ttl">お買いもの（1時間半）</div>
+        <div class="note"><b>オリオンビールのTシャツを家族みんなの分。</b>おみやげ。<br>
+          魚肉ソーセージはスーパーかコンビニで</div></div></li>
+      <li><div class="tm">17:00</div><div class="bd">
+        <div class="ttl">那覇で早めの夕ごはん</div>
+        <div class="note">子どもたちがいつもの時間に食べられるように</div></div></li>
+      <li><div class="tm">18:15</div><div class="bd">
+        <div class="ttl">恩納村のホテルへ出発</div>
+        <div class="note">高速で1時間〜1時間20分。<b>子どもは車で寝てOK</b></div></div></li>
+      <li><div class="tm">19:30</div><div class="bd">
+        <div class="ttl">ホテル到着・チェックイン</div>
+        <div class="note">フロントで「10日は何時まで部屋を使えますか」と聞いておく</div></div></li>
+    </ul>
+  </div>
 
-  <div class="box pack">
+  <div class="card">
     <h3>この日のこと</h3>
-    <p>・出かける前に<b>家族みんなのTシャツのサイズ</b>をメモしておくと、お店で早く終わります。</p>
-    <p>・アクティビティの窓口は17時に閉まるので、<b>この日は申し込みできません</b>。明日の朝いちばんに行きます。</p>
+    <p>出かける前に<b>家族みんなのTシャツのサイズ</b>をメモ。お店で早く終わります。</p>
+    <p>アクティビティの窓口は17時に閉まるので、<b>この日は申し込めません</b>。明日の朝いちばんに。</p>
   </div>
 </section>
 
-<!-- ========================= 2日目 ========================= -->
-<section class="page">
-  <span class="daytag">2日目　9月8日（火）</span>
+<div class="photo rv">
+  <img src="img/sea-reef.jpg" alt="サンゴの丘のまわりを泳ぐ魚の群れ" loading="lazy">
+  <span class="cap">サ ン ゴ の 丘 と、魚 の 群 れ</span>
+</div>
+
+<!-- ===================== 2日目 ===================== -->
+<section id="d2" class="rv">
+  <span class="eyebrow">2 日 目 　 9 / 8 （ 火 ）</span>
   <h2>海の日</h2>
   <p class="theme">おばあちゃんは青の洞窟へ。午後はイルカ</p>
-  <p class="lede">朝いちばんの窓口が、この旅でいちばん大事な用事です。</p>
+  <div class="rule"></div>
 
-  <ul class="sched">
-    <li class="star"><div class="tm">8:30</div><div class="bd">
-      <div class="ttl">アクティビティカウンターへ（いちばん大事）</div>
-      <div class="note"><b>開くと同時に行きます。</b>やりたいこと6つを、ここで全部申し込みます</div></div></li>
-    <li><div class="tm">朝</div><div class="bd">
-      <div class="ttl">朝ごはん</div></div></li>
-    <li><div class="tm">午前</div><div class="bd">
-      <div class="ttl"><span class="tagwho">久美・富美枝</span>青の洞窟シュノーケリング</div>
-      <div class="note">80分ほど。船で行きます。酔い止めは出かける前に飲んでおきます<br>
-        <b>※ 参加できるかどうかは、8:30に窓口で確認してから決めます</b></div></div></li>
-    <li><div class="tm">午前</div><div class="bd">
-      <div class="ttl"><span class="tagwho">一貴・鈴依奈・鈴花・大樹</span>ホテルのビーチデビュー</div>
-      <div class="note">パラソルもイスもマットも無料で借りられます。<br>
-        キッズスプラッシュ広場（水あそび場・無料）もこの時間に<br>
-        <b>ビーチの両はしの岩場がどこにあるか、歩いて見ておきます</b>（明日の下見）</div></div></li>
-    <li><div class="tm">12:30</div><div class="bd"><div class="ttl">お昼ごはん（みんなで）</div></div></li>
-    <li class="rest"><div class="tm">13:00<br>〜14:30</div><div class="bd">
-      <div class="ttl">おひるね・休憩</div>
-      <div class="note">ここには予定を入れません。ゆっくりします</div></div></li>
-    <li><div class="tm">15:00</div><div class="bd">
-      <div class="ttl"><span class="tagwho">一貴さん以外の5人</span>ハッピードルフィン</div>
-      <div class="note">30分。<b>海に入らず、桟橋からイルカにさわれます</b>。赤ちゃんも大丈夫</div></div></li>
-    <li><div class="tm">16:00</div><div class="bd">
-      <div class="ttl">ドルフィンスプラッシュ</div>
-      <div class="note">目の前でイルカがジャンプします。<b>水しぶきがかかります。着替えを用意</b><br>
-        おばあちゃん2人は、午前中がんばったのでここはお休みでOK</div></div></li>
-    <li><div class="tm">18:00</div><div class="bd"><div class="ttl">夕ごはん（早め）</div></div></li>
-  </ul>
+  <div class="card">
+    <ul class="sched">
+      <li class="star"><div class="tm">8:30</div><div class="bd">
+        <div class="ttl">アクティビティカウンターへ</div>
+        <div class="note"><b>開くと同時に。</b>やりたいこと6つを、ここで全部申し込む</div></div></li>
+      <li><div class="tm">朝</div><div class="bd">
+        <div class="ttl">朝ごはん</div></div></li>
+      <li><div class="tm">午前</div><div class="bd">
+        <div class="ttl"><span class="who">久美・富美枝</span>青の洞窟シュノーケリング</div>
+        <div class="note">80分ほど。船で行きます。酔い止めは出かける前に飲む<br>
+          <b>参加できるかは、8:30に窓口で確認してから決めます</b></div></div></li>
+      <li><div class="tm">午前</div><div class="bd">
+        <div class="ttl"><span class="who">一貴・鈴依奈・鈴花・大樹</span>ビーチデビュー</div>
+        <div class="note">パラソル・イス・マットは無料。キッズスプラッシュ広場も無料<br>
+          <b>ビーチの両はしの岩場を歩いて見ておく</b>（明日の下見）</div></div></li>
+      <li><div class="tm">12:30</div><div class="bd"><div class="ttl">お昼ごはん（みんなで）</div></div></li>
+      <li class="rest"><div class="tm">13:00<br>14:30</div><div class="bd">
+        <div class="ttl">おひるね・休憩</div>
+        <div class="note">ここには予定を入れません</div></div></li>
+      <li><div class="tm">15:00</div><div class="bd">
+        <div class="ttl"><span class="who">一貴さん以外の5人</span>ハッピードルフィン</div>
+        <div class="note">30分。<b>海に入らず、桟橋からイルカにさわれます</b>。赤ちゃんも大丈夫</div></div></li>
+      <li><div class="tm">16:00</div><div class="bd">
+        <div class="ttl">ドルフィンスプラッシュ</div>
+        <div class="note">目の前でイルカがジャンプ。<b>水しぶきがかかるので着替えを</b><br>
+          おばあちゃん2人は、午前中がんばったのでお休みでOK</div></div></li>
+      <li><div class="tm">18:00</div><div class="bd"><div class="ttl">夕ごはん（早め）</div></div></li>
+    </ul>
+  </div>
 
-  <div class="box tide">
-    <h3>この日の潮　—　いちばん引くのは 11:18</h3>
-    <p>明日ほどではありませんが、午前中に岩場が出てきます。ビーチを歩くついでに、
+  <div class="card tide">
+    <h3>この日の潮</h3>
+    <p class="tidebig">11:18 <small>いちばん引く時間</small></p>
+    <p style="margin-top:10px">明日ほどではありませんが、午前中に岩場が出てきます。
       <b>カニやヤドカリがいそうな岩場を見つけておく</b>と、明日が楽しくなります。</p>
   </div>
 
-  <div class="box pack">
+  <div class="card">
     <h3>この日の持ちもの</h3>
-    <p>・おばあちゃん2人 … <b>酔い止め</b>（出かける前に飲む）／水着／タオル／<b>健康調査書</b></p>
-    <p>・みんな … 水着／<b>マリンシューズ</b>／日焼け止め／帽子／水あそび用オムツ</p>
-    <p>・イルカのあとに<b>着替え一式</b>（濡れます）</p>
+    <p><b>久美さん・富美枝さん</b>　酔い止め（出かける前に飲む）／水着／タオル／健康調査書</p>
+    <p><b>みんな</b>　水着／マリンシューズ／日焼け止め／帽子／水あそび用オムツ</p>
+    <p><b>イルカのあとに</b>　着替え一式（必ず濡れます）</p>
   </div>
 </section>
 
-<!-- ========================= 3日目 ========================= -->
-<section class="page">
-  <span class="daytag">3日目　9月9日（水）</span>
+<div class="photo tall rv">
+  <img src="img/sea-half.jpg" alt="潮が引いた岩場。水面の上と下が同時に見える" loading="lazy">
+  <span class="cap">潮 が 引 く と、こ の 岩 場 が 顔 を 出 す</span>
+</div>
+
+<!-- ===================== 3日目 ===================== -->
+<section id="d3" class="rv">
+  <span class="eyebrow">3 日 目 　 9 / 9 （ 水 ）</span>
   <h2>カニとヤドカリの日</h2>
   <p class="theme">そして、最後の夜</p>
-  <p class="lede">この日の11時から13時が、旅のいちばんの見どころです。</p>
+  <p class="lede">11時から13時が、この旅のいちばんの見どころです。</p>
+  <div class="rule"></div>
 
-  <ul class="sched">
-    <li><div class="tm">朝</div><div class="bd">
-      <div class="ttl">朝ごはん・パーゴラルームを取る</div>
-      <div class="note">プールサイドの屋根つき個室。今日1日の休憩場所にします</div></div></li>
-    <li><div class="tm">9:30<br>〜10:45</div><div class="bd">
-      <div class="ttl"><span class="tagwho">一貴・鈴依奈</span>SUP（交代で）</div>
-      <div class="note">60分。その間、おばあちゃん2人が子どもたちを見ます</div></div></li>
-    <li class="star"><div class="tm">11:00<br>〜13:00</div><div class="bd">
-      <div class="ttl"><span class="tagwho">大人4人そろって</span>磯あそび。カニとヤドカリを探す</div>
-      <div class="note">ビーチの両はしの岩場と、潮だまり（水たまり）で<br>
-        <b>マリンシューズを必ずはきます。はだしで岩の上を歩かせない</b></div></div></li>
-    <li><div class="tm">13:15</div><div class="bd">
-      <div class="ttl">お昼ごはん・パーゴラルームで休憩</div></div></li>
-    <li class="rest"><div class="tm">13:45<br>〜15:30</div><div class="bd">
-      <div class="ttl">おひるね・休憩</div></div></li>
-    <li><div class="tm">午後</div><div class="bd">
-      <div class="ttl">プール</div>
-      <div class="note">外のプールは夜8時まで、屋内プールは夜10時まで。<br>
-        日ざしが強かったら屋内へ。<b>水あそび用オムツの上に水着でOK</b></div></div></li>
-    <li><div class="tm">17:45<br>ごろ</div><div class="bd">
-      <div class="ttl">ヨットでサンセット</div>
-      <div class="note">60分。夕日に合わせて出発するので、時間は当日決まります<br>
-        （9月の沖縄の日の入りは18時40分ごろ）</div></div></li>
-    <li><div class="tm">19:15</div><div class="bd">
-      <div class="ttl">夕ごはん</div>
-      <div class="note"><b>寝る前に、明日6:30のヨガの申し込みを確認します</b></div></div></li>
-  </ul>
-
-  <div class="box tide">
-    <h3>この日の潮　—　いちばん引くのは 12:04</h3>
-    <p><b>この4日間でいちばん潮が引く時間です。</b>ふだんは海の中にある岩場が顔を出して、
-      あちこちに水たまり（潮だまり）ができます。そこに小さなカニやヤドカリや魚が取り残されるので、
-      2歳の鈴花でも見つけられます。</p>
-    <p style="font-size:16px;color:#0b525f"><b>お昼ちょうどで日ざしが強い時間です。</b>
-      帽子とラッシュガード、そしてこまめに日かげへ。パーゴラルームを取っているのはこのためです。</p>
+  <div class="card">
+    <ul class="sched">
+      <li><div class="tm">朝</div><div class="bd">
+        <div class="ttl">朝ごはん・パーゴラルームを取る</div>
+        <div class="note">プールサイドの屋根つき個室。今日1日の休憩場所に</div></div></li>
+      <li><div class="tm">9:30<br>10:45</div><div class="bd">
+        <div class="ttl"><span class="who">一貴・鈴依奈</span>SUP（交代で）</div>
+        <div class="note">60分。その間、おばあちゃん2人が子どもたちを見ます</div></div></li>
+      <li class="star"><div class="tm">11:00<br>13:00</div><div class="bd">
+        <div class="ttl"><span class="who">大人4人そろって</span>磯あそび</div>
+        <div class="note">ビーチの両はしの岩場と、潮だまりでカニとヤドカリを探す<br>
+          <b>マリンシューズを必ず。はだしで岩の上を歩かせない</b></div></div></li>
+      <li><div class="tm">13:15</div><div class="bd">
+        <div class="ttl">お昼ごはん・パーゴラルームで休憩</div></div></li>
+      <li class="rest"><div class="tm">13:45<br>15:30</div><div class="bd">
+        <div class="ttl">おひるね・休憩</div></div></li>
+      <li><div class="tm">午後</div><div class="bd">
+        <div class="ttl">プール</div>
+        <div class="note">外は夜8時まで、屋内は夜10時まで。日ざしが強かったら屋内へ<br>
+          <b>水あそび用オムツの上に水着でOK</b></div></div></li>
+      <li><div class="tm">17:45<br>ごろ</div><div class="bd">
+        <div class="ttl">ヨットでサンセット</div>
+        <div class="note">60分。夕日に合わせるので時間は当日決まります<br>
+          （9月の沖縄の日の入りは18時40分ごろ）</div></div></li>
+      <li><div class="tm">19:15</div><div class="bd">
+        <div class="ttl">夕ごはん</div>
+        <div class="note"><b>寝る前に、明日6:30のヨガの申し込みを確認</b></div></div></li>
+    </ul>
   </div>
 
-  <div class="box pack">
+  <div class="card tide">
+    <h3>この日の潮</h3>
+    <p class="tidebig">12:04 <small>4日間でいちばん引く</small></p>
+    <p style="margin-top:10px">ふだんは海の中にある岩場が顔を出して、あちこちに潮だまりができます。
+      そこに小さなカニやヤドカリや魚が取り残されるので、<b>2歳の鈴花でも見つけられます。</b></p>
+    <div class="subnote" style="border-left-color:rgba(255,133,99,.6)">
+      <b>お昼ちょうどで、日ざしがいちばん強い時間です。</b>
+      帽子とラッシュガード、そしてこまめに日かげへ。パーゴラルームを取っているのはこのためです。
+    </div>
+  </div>
+
+  <div class="card">
     <h3>この日の持ちもの</h3>
-    <p>・<b>マリンシューズ（全員）</b>　・帽子　・ラッシュガード　・日焼け止め</p>
-    <p>・小さなバケツかカップがあると、つかまえた生きものを見せられます</p>
-    <p>・<b>食酢の小びん</b>（万一クラゲに刺されたときの応急手当てに使います）</p>
+    <p><b>マリンシューズ（全員）</b>／帽子／ラッシュガード／日焼け止め</p>
+    <p>小さなバケツかカップ（つかまえた生きものを見せられます）</p>
+    <p><b>食酢の小びん</b>（万一クラゲに刺されたときの応急手当てに）</p>
   </div>
 </section>
 
-<!-- ========================= 4日目 ========================= -->
-<section class="page">
-  <span class="daytag">4日目　9月10日（木）</span>
+<div class="photo rv">
+  <img src="img/sea-tidepool.jpg" alt="沖縄の潮だまり。岩場に海水がたまっている" loading="lazy">
+  <span class="cap">こ の 水 た ま り の 中 に、生 き も の が い る</span>
+</div>
+
+<!-- ===================== 4日目 ===================== -->
+<section id="d4" class="rv">
+  <span class="eyebrow">4 日 目 　 9 / 1 0 （ 木 ）</span>
   <h2>帰る日</h2>
   <p class="theme">朝ヨガから始めて、海で締める</p>
-  <p class="lede">最後まで海で遊んでから、那覇に向かいます。</p>
+  <div class="rule"></div>
 
-  <ul class="sched">
-    <li class="star"><div class="tm">6:30<br>〜7:30</div><div class="bd">
-      <div class="ttl"><span class="tagwho">大人だけ</span>早朝ビーチ琉球ヨーガ</div>
-      <div class="note"><b>3泊するので無料です。</b>朝日を浴びながら、沖縄の音楽でゆっくり体を動かします<br>
-        雨の日はジムでやるので、中止になりません</div></div></li>
-    <li><div class="tm">8:00</div><div class="bd"><div class="ttl">朝ごはん</div></div></li>
-    <li><div class="tm">〜11:00</div><div class="bd">
-      <div class="ttl">荷づくり</div>
-      <div class="note">部屋を長く使わせてもらえたら、荷物は置いたままで大丈夫です</div></div></li>
-    <li><div class="tm">11:00<br>〜12:45</div><div class="bd">
-      <div class="ttl">最後のビーチ。磯あそび2回目</div>
-      <div class="note">この日も昼すぎに潮が引きます。もう一度カニ探しができます</div></div></li>
-    <li><div class="tm">12:45</div><div class="bd">
-      <div class="ttl">シャワー・着替え・チェックアウト</div></div></li>
-    <li><div class="tm">13:15</div><div class="bd">
-      <div class="ttl">那覇へ出発</div>
-      <div class="note">1時間ほど。とちゅうでガソリンを入れます</div></div></li>
-    <li><div class="tm">16:00</div><div class="bd">
-      <div class="ttl">レンタカーを返す</div>
-      <div class="note">無料の送迎バス（20分ほど）で空港へ</div></div></li>
-    <li><div class="tm">16:30<br>〜18:20</div><div class="bd">
-      <div class="ttl">空港で夕ごはん・おみやげ</div></div></li>
-    <li><div class="tm">18:20</div><div class="bd">
-      <div class="ttl">那覇を出発（NH1214）</div>
-      <div class="note">福岡に 20:00 着</div></div></li>
-  </ul>
-
-  <div class="box tide">
-    <h3>この日の潮　—　いちばん引くのは 12:44</h3>
-    <p>昨日と同じくらい引きます。<b>チェックアウトの前に、もう一度だけ岩場へ。</b></p>
+  <div class="card">
+    <ul class="sched">
+      <li class="star"><div class="tm">6:30<br>7:30</div><div class="bd">
+        <div class="ttl"><span class="who">大人だけ</span>早朝ビーチ琉球ヨーガ</div>
+        <div class="note"><b>3泊するので無料です。</b>朝日を浴びながら、沖縄の音楽でゆっくり<br>
+          雨の日はジムでやるので中止になりません</div></div></li>
+      <li><div class="tm">8:00</div><div class="bd"><div class="ttl">朝ごはん</div></div></li>
+      <li><div class="tm">〜11:00</div><div class="bd">
+        <div class="ttl">荷づくり</div>
+        <div class="note">部屋を長く使わせてもらえたら、荷物は置いたままでOK</div></div></li>
+      <li class="star"><div class="tm">11:00<br>12:45</div><div class="bd">
+        <div class="ttl">最後のビーチ。磯あそび2回目</div>
+        <div class="note">この日も昼すぎに潮が引きます。もう一度カニ探しができます</div></div></li>
+      <li><div class="tm">12:45</div><div class="bd">
+        <div class="ttl">シャワー・着替え・チェックアウト</div></div></li>
+      <li><div class="tm">13:15</div><div class="bd">
+        <div class="ttl">那覇へ出発</div>
+        <div class="note">1時間ほど。とちゅうでガソリンを入れます</div></div></li>
+      <li><div class="tm">16:00</div><div class="bd">
+        <div class="ttl">レンタカーを返す</div>
+        <div class="note">無料の送迎バス（20分ほど）で空港へ</div></div></li>
+      <li><div class="tm">16:30<br>18:20</div><div class="bd">
+        <div class="ttl">空港で夕ごはん・おみやげ</div></div></li>
+      <li><div class="tm">18:20</div><div class="bd">
+        <div class="ttl">那覇を出発（NH1214）</div>
+        <div class="note">福岡に 20:00 着</div></div></li>
+    </ul>
   </div>
 
-  <div class="box pack">
+  <div class="card tide">
+    <h3>この日の潮</h3>
+    <p class="tidebig">12:44 <small>昨日と同じくらい引く</small></p>
+    <p style="margin-top:10px"><b>チェックアウトの前に、もう一度だけ岩場へ。</b></p>
+  </div>
+
+  <div class="card">
     <h3>この日の持ちもの</h3>
-    <p>・海から上がったあとの<b>着替え一式</b>を、スーツケースに入れずに手元に出しておく</p>
-    <p>・部屋を長く使えなかったときのために、<b>タオルと着替えを1つの袋にまとめておく</b></p>
+    <p>海から上がったあとの<b>着替え一式</b>を、スーツケースに入れずに手元へ</p>
+    <p>部屋を長く使えなかったとき用に、<b>タオルと着替えを1つの袋にまとめておく</b></p>
   </div>
 </section>
 
-<!-- ========================= 持ちもの ========================= -->
-<section class="page">
-  <span class="daytag">持ちもの</span>
-  <h2>チェックリスト</h2>
-  <p class="lede">印刷して、手でチェックを入れられます。画面ではタップでもチェックできます。</p>
+<div class="photo rv">
+  <img src="img/sea-shallow.jpg" alt="浅瀬のサンゴと、目の前を泳ぐ魚たち" loading="lazy">
+  <span class="cap">も う い ち ど、こ の 浅 瀬 へ</span>
+</div>
 
-  <div class="box">
+<!-- ===================== 持ちもの ===================== -->
+<section id="pack" class="rv">
+  <span class="eyebrow">持 ち も の</span>
+  <h2>チェックリスト</h2>
+  <p class="lede">タップでチェックできます。<b>この端末に保存されるので、閉じても消えません。</b></p>
+
+  <div class="prog">
+    <div class="pb"><div class="pf" id="pf"></div></div>
+    <p class="pt" id="pt">0 / 0</p>
+  </div>
+
+  <div class="card gold">
     <h3>今回のために新しく用意するもの</h3>
-    <ul class="check">
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">マリンシューズ（家族全員分）
-        <small>岩場をはだしで歩かないため。ビーチサンダルはすべるので不向きです</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">食酢の小びん
-        <small>もしクラゲに刺されたときの応急手当てに使います。こすらず、酢をたっぷりかけます</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">酔い止めの薬
-        <small>おばあちゃん2人の、青の洞窟の日に</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">子ども用のシュノーケルマスク
-        <small>ホテルで借りられるものに子どもサイズがあるか分からないので、使い慣れたものを</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">健康調査書（印刷して記入したもの）
-        <small>青の洞窟とSUPで必要です。書いて持って行くと当日が早く済みます</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">家族全員のTシャツのサイズを書いたメモ
+    <ul class="chk">
+      <li><label><input type="checkbox" data-k="p1"><span class="bx"></span><span class="tx">マリンシューズ（家族全員分）
+        <small>岩場をはだしで歩かないため。ビーチサンダルはすべるので不向き</small></span></label></li>
+      <li><label><input type="checkbox" data-k="p2"><span class="bx"></span><span class="tx">食酢の小びん
+        <small>クラゲに刺されたときの応急手当て。こすらず、酢をたっぷりかける</small></span></label></li>
+      <li><label><input type="checkbox" data-k="p3"><span class="bx"></span><span class="tx">酔い止めの薬
+        <small>久美さん・富美枝さんの、青の洞窟の日に</small></span></label></li>
+      <li><label><input type="checkbox" data-k="p4"><span class="bx"></span><span class="tx">子ども用のシュノーケルマスク
+        <small>ホテルに子どもサイズがあるか不明なので、使い慣れたものを</small></span></label></li>
+      <li><label><input type="checkbox" data-k="p5"><span class="bx"></span><span class="tx">健康調査書（印刷して記入したもの）
+        <small>青の洞窟とSUPで必要。書いて持って行くと当日が早く済みます</small></span></label></li>
+      <li><label><input type="checkbox" data-k="p6"><span class="bx"></span><span class="tx">家族全員のTシャツのサイズを書いたメモ
         <small>1日目、国際通りでオリオンのTシャツを買うときに</small></span></label></li>
     </ul>
   </div>
 
-  <div class="box">
+  <div class="card">
     <h3>海と子どものもの</h3>
-    <ul class="check">
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">水あそび用オムツ
-        <small>ホテルでも売っていますが小さいサイズは無いので、持って行きます</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">着替え（多め）
+    <ul class="chk">
+      <li><label><input type="checkbox" data-k="s1"><span class="bx"></span><span class="tx">水あそび用オムツ
+        <small>ホテルにもありますが小さいサイズが無いので持参</small></span></label></li>
+      <li><label><input type="checkbox" data-k="s2"><span class="bx"></span><span class="tx">着替え（多め）
         <small>イルカのジャンプで濡れます。磯あそびでも濡れます</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">日焼け止め（子ども用）</span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">ラッシュガード</span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">帽子（つばの広いもの）・日がさ</span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">水着（全員）・ビーチタオル</span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">小さなバケツかカップ
-        <small>つかまえたカニやヤドカリを入れて、みんなで見るのに</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">ベビーカー1台・抱っこひも2つ
+      <li><label><input type="checkbox" data-k="s3"><span class="bx"></span><span class="tx">日焼け止め（子ども用）</span></label></li>
+      <li><label><input type="checkbox" data-k="s4"><span class="bx"></span><span class="tx">ラッシュガード</span></label></li>
+      <li><label><input type="checkbox" data-k="s5"><span class="bx"></span><span class="tx">帽子（つばの広いもの）・日がさ</span></label></li>
+      <li><label><input type="checkbox" data-k="s6"><span class="bx"></span><span class="tx">水着（全員）・ビーチタオル</span></label></li>
+      <li><label><input type="checkbox" data-k="s7"><span class="bx"></span><span class="tx">小さなバケツかカップ
+        <small>つかまえたカニやヤドカリを、みんなで見るのに</small></span></label></li>
+      <li><label><input type="checkbox" data-k="s8"><span class="bx"></span><span class="tx">ベビーカー1台・抱っこひも2つ
         <small>もう1台はホテルで借ります</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">おばあちゃん2人の歩きやすい靴</span></label></li>
+      <li><label><input type="checkbox" data-k="s9"><span class="bx"></span><span class="tx">久美さん・富美枝さんの歩きやすい靴</span></label></li>
     </ul>
   </div>
 </section>
 
-<!-- ========================= 予約と連絡先 ========================= -->
-<section class="page">
-  <span class="daytag">もしものとき</span>
+<!-- ===================== 連絡先 ===================== -->
+<section id="info" class="rv">
+  <span class="eyebrow">も し も の と き</span>
   <h2>予約と連絡先</h2>
-  <p class="lede">困ったときは、ここを見てください。</p>
+  <p class="lede">番号はタップでそのままかけられます。</p>
 
-  <div class="box">
+  <div class="card">
     <h3>飛行機</h3>
-    <div class="tw"><table>
-      <tr><th>行き</th><td><b>NH1207</b>　9月7日（月）　福岡 11:30 → 那覇 13:20</td></tr>
-      <tr><th>帰り</th><td><b>NH1214</b>　9月10日（木）　那覇 18:20 → 福岡 20:00</td></tr>
-    </table></div>
-  </div>
-
-  <div class="box">
-    <h3>ホテル</h3>
-    <div class="tw"><table>
-      <tr><th>名前</th><td><b>ルネッサンス リゾート オキナワ</b><br>沖縄県国頭郡恩納村山田3425-2</td></tr>
-      <tr><th>予約番号</th><td>デラックス ツイン　<b>94167364</b><br>スーペリア ツイン　<b>94167488</b></td></tr>
-      <tr><th>アクティビティ<br>カウンター</th><td><b>098-964-5629</b>　（8:30〜17:00）</td></tr>
-      <tr><th>代表の番号</th><td>予約確認メールに書いてあります</td></tr>
-    </table></div>
-  </div>
-
-  <div class="box">
-    <h3>レンタカー</h3>
-    <div class="tw"><table>
-      <tr><th>会社</th><td><b>オリックスレンタカー 那覇空港店</b>（豊崎）</td></tr>
-      <tr><th>車</th><td>ステップワゴン（8人乗り）</td></tr>
-      <tr><th>予約番号</th><td><b>247248352</b></td></tr>
-      <tr><th>受け取り</th><td>9月7日（月）14:00　／　空港の送迎バス乗り場「<b>11-B</b>」から</td></tr>
-      <tr><th>返す</th><td>9月10日（木）16:00</td></tr>
-    </table></div>
-  </div>
-
-  <div class="box soft">
-    <h3>国際通りの駐車場（1日目）</h3>
-    <p><b>県民広場地下駐車場</b>（県庁前）　高さ制限 2.2m ／ 202台 ／ その日の上限 1,500円<br>
-      国際通りの入口まで歩いて1分です。</p>
-    <p style="font-size:16px;color:var(--ink-soft)">満車のときは「パレットくもじ地下駐車場」へ（高さ制限 2.1m）。</p>
-  </div>
-
-  <p class="small">※ 予約のパスワードは、このしおりには書いていません。別の控えにあります。</p>
-</section>
-
-<!-- ========================= みんなで あそぶ ========================= -->
-<section class="page">
-  <span class="daytag">みんなで あそぶ</span>
-  <h2>沖縄うみチャリ走</h2>
-  <p class="theme">6人でスコアを競う、かんたんなゲームです</p>
-  <p class="lede">
-    沖縄の岩場と桟橋を、自転車でどこまで走れるかを競います。画面をタップしてジャンプするだけ。
-    6人の名前から自分を選んで走ると、<b>自己ベストが残って、家族みんなのランキングが見られます。</b><br>
-    <span style="color:var(--ink-faint);font-size:16px">入口のボタンは、このしおりの表紙にもあります。</span>
-  </p>
-
-  <a class="gamebtn" href="./game.html" target="_blank" rel="noopener">
-    沖縄うみチャリ走 を あそぶ
-    <span>ここを押すと開きます</span>
-  </a>
-  <p class="printonly" style="font-size:16px;color:var(--ink-soft);margin:6px 0 22px">
-    紙で見ている人は、<b>家族のグループに貼ってあるリンク</b>から開いてください。
-  </p>
-
-  <div class="box">
-    <h3>あそびかた</h3>
-    <ul class="howto">
-      <li><span class="no">1</span><span class="tx"><b>画面をタップ</b>すると、ジャンプします</span></li>
-      <li><span class="no">2</span><span class="tx"><b>長おし</b>すると、高くとびます</span></li>
-      <li><span class="no">3</span><span class="tx"><b>空中でもう1回タップ</b>で、2段ジャンプ</span></li>
+    <ul class="info">
+      <li><span class="k">行き</span><span class="v"><b>NH1207</b><br>9/7（月）福岡 11:30 → 那覇 13:20</span></li>
+      <li><span class="k">帰り</span><span class="v"><b>NH1214</b><br>9/10（木）那覇 18:20 → 福岡 20:00</span></li>
     </ul>
   </div>
 
-  <div class="box tide">
-    <h3>走った距離が、そのまま沖縄の地図になります</h3>
-    <p><b>画面の下に沖縄本島の地図が出て、いまどこまで来たかが分かります。</b></p>
-    <div class="tw"><table>
-      <tr><th>0.3km</th><td>国際通り</td></tr>
-      <tr><th>1.8km</th><td>残波岬</td></tr>
-      <tr><th>2.8km</th><td><b>ルネッサンス（とまるホテル）に とうちゃく</b>　お祝いが出ます</td></tr>
-      <tr><th>5.6km</th><td>美ら海水族館</td></tr>
-      <tr><th>6.6km</th><td><b>辺戸岬（本島のさいほくたん）。ここまで行くと ゲームクリア</b></td></tr>
-    </table></div>
-    <p style="margin-top:14px"><b>クリアしても止まりません。</b>そのまま、どこまでも走りつづけられます。</p>
-    <p style="font-size:16px;color:#0b525f">
-      そして<b>家族6人の合計距離</b>で、「那覇空港からホテルまでの<b>55km</b>」を目指します。
-      1人でとどかなくても、みんなで足せば着きます。</p>
+  <div class="card gold">
+    <h3>ホテル</h3>
+    <ul class="info">
+      <li><span class="k">名前</span><span class="v"><b>ルネッサンス リゾート オキナワ</b><br>
+        沖縄県国頭郡恩納村山田3425-2
+        <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%AB%E3%83%8D%E3%83%83%E3%82%B5%E3%83%B3%E3%82%B9%E3%83%AA%E3%82%BE%E3%83%BC%E3%83%88%E3%82%AA%E3%82%AD%E3%83%8A%E3%83%AF" target="_blank" rel="noopener">地図をひらく</a></span></li>
+      <li><span class="k">予約番号</span><span class="v">デラックス ツイン　<b>94167364</b><br>スーペリア ツイン　<b>94167488</b></span></li>
+      <li><span class="k">活動の窓口</span><span class="v">8:30〜17:00
+        <a class="call" href="tel:0989645629">098-964-5629 にかける</a></span></li>
+    </ul>
   </div>
 
-  <div class="box soft">
-    <h3>走っていると、こんなものが出てきます</h3>
-    <p><b>拾えるもの</b>　魚肉ソーセージ　／　シークヮーサー　／　サーターアンダギー　／　シーサー</p>
-    <p><b>そうび</b>　むぎわら帽子　／　アロハシャツ　／　うきわ</p>
-    <p><b>ときどきイルカに乗れる区間</b>があります。<br>
-      背景も、走るほど変わります。あさの砂浜からはじまって、ほしぞら、スコール、さいごは にじの海。全部で10通り。</p>
+  <div class="card">
+    <h3>レンタカー</h3>
+    <ul class="info">
+      <li><span class="k">会社</span><span class="v"><b>オリックスレンタカー 那覇空港店</b>（豊崎）</span></li>
+      <li><span class="k">車</span><span class="v">ステップワゴン（8人乗り）</span></li>
+      <li><span class="k">予約番号</span><span class="v"><b>247248352</b></span></li>
+      <li><span class="k">受け取り</span><span class="v">9/7（月）14:00　空港の送迎バス乗り場 <b>11-B</b></span></li>
+      <li><span class="k">返す</span><span class="v">9/10（木）16:00</span></li>
+    </ul>
   </div>
+
+  <div class="card">
+    <h3>国際通りの駐車場（1日目）</h3>
+    <p><b>県民広場地下駐車場</b>（県庁前）<br>
+      高さ制限 2.2m ／ 202台 ／ その日の上限 1,500円。国際通りの入口まで歩いて1分。</p>
+    <p style="color:var(--ink-faint);font-size:14px">満車のときは「パレットくもじ地下駐車場」へ（高さ制限 2.1m）。</p>
+  </div>
+
+  <p style="font-size:13px;color:var(--ink-faint);text-align:center;margin-top:14px">
+    予約のパスワードは、このしおりには書いていません。</p>
 </section>
 
-<!-- ========================= 鈴花ちゃんのページ ========================= -->
-<section class="page kids">
-  <span class="daytag" style="background:var(--coral)">すずかちゃんへ</span>
-  <h2>みつけたら チェック！</h2>
-  <p class="theme">おきなわの うみに いる いきものたち</p>
-  <p class="lede" style="font-size:19px">みつけたら、しかくに しるしを つけよう。</p>
+<div class="photo tall rv">
+  <img src="img/sea-nemo.jpg" alt="イソギンチャクの中にいるカクレクマノミ" loading="lazy">
+  <span class="cap">う ん が よ け れ ば、こ の 子 に 会 え る</span>
+</div>
 
-  <ul class="find">
-    <li><span class="em">🦀</span><span class="nm">かに</span><br><span class="bx2"></span></li>
-    <li><span class="em">🐚</span><span class="nm">やどかり</span><br><span class="bx2"></span></li>
-    <li><span class="em">🐠</span><span class="nm">ちいさい さかな</span><br><span class="bx2"></span></li>
-    <li><span class="em">🐬</span><span class="nm">いるか</span><br><span class="bx2"></span></li>
-    <li><span class="em">🌀</span><span class="nm">かい</span><br><span class="bx2"></span></li>
-    <li><span class="em">🥒</span><span class="nm">なまこ</span><br><span class="bx2"></span></li>
-    <li><span class="em">⭐️</span><span class="nm">ひとで</span><br><span class="bx2"></span></li>
-    <li><span class="em">🪸</span><span class="nm">さんご</span><br><span class="bx2"></span></li>
-    <li><span class="em">🐢</span><span class="nm">うみがめ</span><br><span class="bx2"></span></li>
-    <li><span class="em">🦐</span><span class="nm">えび</span><br><span class="bx2"></span></li>
-    <li><span class="em">🌺</span><span class="nm">はいびすかす</span><br><span class="bx2"></span></li>
-    <li><span class="em">🦁</span><span class="nm">しーさー</span><br><span class="bx2"></span></li>
+<!-- ===================== 鈴花ちゃんのページ ===================== -->
+<section id="kids" class="rv">
+  <span class="eyebrow">す ず か ち ゃ ん へ</span>
+  <h2>みつけたら タップ！</h2>
+  <p class="theme">おきなわの うみに いる いきものたち</p>
+  <p class="lede">みつけたら おしてね。ひかったら、みつけた しるし。</p>
+
+  <ul class="find" id="find">
+    <li data-k="f1"><span class="em">🦀</span><span class="nm">かに</span></li>
+    <li data-k="f2"><span class="em">🐚</span><span class="nm">やどかり</span></li>
+    <li data-k="f3"><span class="em">🐠</span><span class="nm">さかな</span></li>
+    <li data-k="f4"><span class="em">🐬</span><span class="nm">いるか</span></li>
+    <li data-k="f5"><span class="em">🌀</span><span class="nm">かい</span></li>
+    <li data-k="f6"><span class="em">🥒</span><span class="nm">なまこ</span></li>
+    <li data-k="f7"><span class="em">⭐️</span><span class="nm">ひとで</span></li>
+    <li data-k="f8"><span class="em">🪸</span><span class="nm">さんご</span></li>
+    <li data-k="f9"><span class="em">🐢</span><span class="nm">うみがめ</span></li>
+    <li data-k="f10"><span class="em">🦐</span><span class="nm">えび</span></li>
+    <li data-k="f11"><span class="em">🌺</span><span class="nm">はいびすかす</span></li>
+    <li data-k="f12"><span class="em">🦁</span><span class="nm">しーさー</span></li>
   </ul>
 
-  <p class="kidsnote">いわの すきまや、みずたまりを のぞいてみてね。<br>
-    さわるまえに、おとうさんか おかあさんに きいてね。</p>
+  <p class="kidsbig">いま <b id="findn">0</b> / 12 こ みつけた</p>
+
+  <div class="card" style="margin-top:18px">
+    <p style="font-size:16px;line-height:1.9">いわの すきまや、みずたまりを のぞいてみてね。<br>
+      <b>さわるまえに、おとうさんか おかあさんに きいてね。</b></p>
+  </div>
 </section>
 
-<!-- ========================= おばあちゃんへ ========================= -->
-<section class="page">
-  <span class="daytag">久美さん・富美枝さんへ</span>
-  <h2>青の洞窟シュノーケリング</h2>
-  <p class="theme">9月8日（火）の午前　／　約80分</p>
+<div class="photo rv">
+  <img src="img/sea-turtle.jpg" alt="サンゴのそばで休むアオウミガメ（那覇沖）" loading="lazy">
+  <span class="cap">こ の 海 の、深 い と こ ろ</span>
+</div>
 
-  <div class="box warn" style="background:var(--warn-soft);border-color:#e6d5a8">
-    <h3>まず、大事なお知らせです</h3>
+<!-- ===================== おばあちゃんへ ===================== -->
+<section id="cave" class="rv">
+  <span class="eyebrow">久 美 さ ん ・ 富 美 枝 さ ん へ</span>
+  <h2>青の洞窟</h2>
+  <p class="theme">9月8日（火）の午前　／　約80分</p>
+  <div class="rule"></div>
+
+  <div class="photo">
+    <img src="img/sea-batfish.jpg" alt="深い青のなか、岩の壁のそばを泳ぐ大きな魚" loading="lazy">
+    <span class="cap">の ぞ く の は、こ ん な 世 界 で す</span>
+  </div>
+
+  <div class="card coral">
+    <h3>まず、大事なお知らせ</h3>
     <p><b>これは、まだ決まっていません。</b></p>
-    <p>ホテルの案内に「何歳まで参加できるか」「持病があっても大丈夫か」
-      「泳げなくても参加できるか」が書かれていませんでした。</p>
+    <p>ホテルの案内に「何歳まで参加できるか」「持病があっても大丈夫か」「泳げなくても参加できるか」
+      が書かれていませんでした。</p>
     <p><b>9月8日の朝8時半に窓口で確認して、そこで決めます。</b>
       参加できないと言われたら、無理せず別の楽しみに変えます。
-      その場合は、水中展望室から魚を見る「クマノミ号クルーズ」（濡れません）などがあります。</p>
-    <p style="font-size:16px;color:var(--ink-soft)">
-      持病やお薬のことを聞かれるかもしれません。<b>飲んでいるお薬があれば、名前が分かるものを持ってきてください。</b></p>
+      水中展望室から魚を見る「クマノミ号クルーズ」（濡れません）などがあります。</p>
+    <div class="subnote">持病やお薬のことを聞かれるかもしれません。
+      <b>飲んでいるお薬があれば、名前が分かるものをお持ちください。</b></div>
   </div>
 
-  <div class="box soft">
+  <div class="card">
     <h3>どんなものか</h3>
-    <p>船で「青の洞窟」まで行って、海の中をのぞきます。港からは<b>5分から7分ほど</b>と、そんなに長くありません。</p>
-    <p>青の洞窟には、歩いて行くコースもあるのですが、<b>100段以上の階段と岩場を歩きます</b>。
-      今回の船で行くコースなら、その階段を通らずに済みます。<b>体には、こちらの方が楽です。</b></p>
-    <p><b>泳げなくても大丈夫だと言われています。</b>ウェットスーツとライフジャケットを着ると、体は自然に浮きます。
-      案内の人が浮き具で引っぱってくれるので、自分で泳ぐ必要はありません。
-      <span style="color:var(--ink-soft)">（これは他の会社の案内で見た話です。ホテルのものも同じかどうかは、当日確認します）</span></p>
+    <p>船で「青の洞窟」まで行って、海の中をのぞきます。港からは<b>5分から7分ほど</b>。</p>
+    <p>歩いて行くコースもあるのですが、<b>100段以上の階段と岩場を歩きます</b>。
+      船のコースならその階段を通らずに済むので、<b>体には こちらの方が楽です。</b></p>
+    <p><b>泳げなくても大丈夫だと言われています。</b>
+      ウェットスーツとライフジャケットで体は自然に浮き、案内の人が浮き具で引っぱってくれます。
+      <span style="color:var(--ink-faint)">（他の会社の案内で見た話です。ホテルのものも同じかは当日確認します）</span></p>
   </div>
 
-  <div class="box">
+  <div class="card gold">
     <h3>当日の流れ</h3>
-    <ul class="check">
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">前の日の夜、早めに休む</span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">朝ごはんの前後に<b>酔い止めを飲む</b>
+    <ul class="chk">
+      <li><label><input type="checkbox" data-k="c1"><span class="bx"></span><span class="tx">前の日の夜、早めに休む</span></label></li>
+      <li><label><input type="checkbox" data-k="c2"><span class="bx"></span><span class="tx">朝ごはんの前後に<b>酔い止めを飲む</b>
         <small>船なので、念のため</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">水着を着てから、上に服を着ておく</span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt"><b>健康調査書</b>を出す
+      <li><label><input type="checkbox" data-k="c3"><span class="bx"></span><span class="tx">水着を着てから、上に服を着ておく</span></label></li>
+      <li><label><input type="checkbox" data-k="c4"><span class="bx"></span><span class="tx"><b>健康調査書</b>を出す
         <small>書いて持って行けば、その場で書かずに済みます</small></span></label></li>
-      <li><label><input type="checkbox"><span class="bx"></span><span class="txt">タオルと着替えを持って集合場所へ</span></label></li>
+      <li><label><input type="checkbox" data-k="c5"><span class="bx"></span><span class="tx">タオルと着替えを持って集合場所へ</span></label></li>
     </ul>
   </div>
 
-  <div class="box pack">
+  <div class="card tide">
     <h3>もうひとつのお楽しみ　—　朝のヨガ</h3>
     <p><b>9月10日（木）の朝6:30。ビーチで琉球ヨーガ。3泊するので無料です。</b></p>
     <p>朝日を浴びながら、沖縄の音楽でゆっくり体を動かします。1時間ほど。
-      雨の日はジムでやるので、中止になりません。</p>
-    <p style="font-size:16px;color:var(--ink-soft)">前の日までに申し込みが必要なので、こちらで済ませておきます。</p>
+      雨の日はジムでやるので中止になりません。</p>
+    <p style="color:var(--ink-faint);font-size:14px">前の日までに申し込みが必要なので、こちらで済ませておきます。</p>
   </div>
 </section>
 
-<!-- ========================= 最後に ========================= -->
-<section class="page">
-  <span class="daytag" style="background:var(--ink-faint)">おわりに</span>
+<!-- ===================== ゲーム ===================== -->
+<section id="game" class="rv">
+  <span class="eyebrow">み ん な で あ そ ぶ</span>
+  <h2>沖縄うみチャリ走</h2>
+  <p class="theme">6人でスコアを競う、かんたんなゲーム</p>
+  <div class="rule"></div>
+
+  <a class="game" href="./game.html" target="_blank" rel="noopener">
+    <span class="g1">タ ッ プ で ひ ら く</span>
+    <span class="g2">沖縄うみチャリ走</span>
+    <span class="g3">自己ベストが残って、家族のランキングが見られます</span>
+  </a>
+
+  <div class="card" style="margin-top:16px">
+    <h3>あそびかた</h3>
+    <p><b>タップ</b>でジャンプ　／　<b>長おし</b>で高くとぶ　／　<b>空中でもう1回</b>で2段ジャンプ</p>
+  </div>
+
+  <div class="card tide">
+    <h3>走った距離が、そのまま沖縄の地図になります</h3>
+    <ul class="info">
+      <li><span class="k">0.3km</span><span class="v">国際通り</span></li>
+      <li><span class="k">1.8km</span><span class="v">残波岬</span></li>
+      <li><span class="k">2.8km</span><span class="v"><b>ルネッサンス（とまるホテル）に とうちゃく</b></span></li>
+      <li><span class="k">5.6km</span><span class="v">美ら海水族館</span></li>
+      <li><span class="k">6.6km</span><span class="v"><b>辺戸岬。ここまで行くとゲームクリア</b></span></li>
+    </ul>
+    <div class="subnote">
+      <b>クリアしても止まりません。</b>どこまでも走りつづけられます。<br>
+      そして<b>家族6人の合計距離</b>で「那覇空港からホテルまでの 55km」を目指します。
+      1人でとどかなくても、みんなで足せば着きます。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>走っていると、こんなものが出てきます</h3>
+    <p><b>拾えるもの</b>　魚肉ソーセージ／シークヮーサー／サーターアンダギー／シーサー</p>
+    <p><b>そうび</b>　むぎわら帽子／アロハシャツ／うきわ</p>
+    <p><b>ときどきイルカに乗れる区間</b>があります。背景も走るほど変わります。
+      あさの砂浜、ほしぞら、スコール、さいごは にじの海。全部で10通り。</p>
+  </div>
+</section>
+
+<!-- ===================== 当日聞くこと ===================== -->
+<section id="ask" class="rv">
+  <span class="eyebrow">お わ り に</span>
   <h2>まだ決まっていないこと</h2>
-  <p class="lede">当日、ホテルで聞いて決めることです。心配することではありません。</p>
+  <p class="lede">当日ホテルで聞いて決めることです。心配することではありません。</p>
 
-  <div class="small">
-    <div class="tw"><table>
-      <tr><th>いつ聞くか</th><th>聞くこと</th></tr>
-      <tr><td><b>9月8日（火）<br>朝8:30<br>窓口で</b></td>
-        <td>
-          ・青の洞窟に年齢の上限はあるか。おばあちゃん2人は参加できるか<br>
-          ・持病があると断られることはあるか<br>
-          ・泳げなくても参加できるか。案内の人が引っぱってくれるか<br>
-          ・青の洞窟は1日に何回、何時に出発するか<br>
-          ・波や風で中止になったとき、料金はどうなるか<br>
-          ・大樹（0歳）はハッピードルフィンに参加できるか。1組5名までに6人はどう入るか<br>
-          ・大樹はヨットに乗れるか<br>
-          ・SUPは中学生以上とあるが、大人が子どもを乗せられないか
-        </td></tr>
-      <tr><td>9月7日（月）<br>夜<br>フロントで</td>
-        <td>
-          ・ビーチに監視員はいるか。何時から何時までか<br>
-          ・水あそび用オムツでビーチに入れるか（プールは大丈夫と書いてあります）<br>
-          ・子ども用のシュノーケルマスクはあるか<br>
-          ・10日は何時まで部屋を使えるか
-        </td></tr>
-      <tr><td>現地で</td>
-        <td>・パーゴラルームの料金（案内に5,000円と4,400円の両方が出ています）</td></tr>
-    </table></div>
+  <details open>
+    <summary>9/8（火）朝8:30　活動の窓口で</summary>
+    <div class="inner">
+      <ul>
+        <li>青の洞窟に年齢の上限はあるか。久美さん・富美枝さんは参加できるか</li>
+        <li>持病があると断られることはあるか</li>
+        <li>泳げなくても参加できるか。案内の人が引っぱってくれるか</li>
+        <li>青の洞窟は1日に何回、何時に出発するか</li>
+        <li>波や風で中止になったとき、料金はどうなるか</li>
+        <li>大樹（0歳）はハッピードルフィンに参加できるか。1組5名までに6人はどう入るか</li>
+        <li>大樹はヨットに乗れるか</li>
+        <li>SUPは中学生以上とあるが、大人が子どもを乗せられないか</li>
+      </ul>
+    </div>
+  </details>
 
-    <p style="margin-top:26px">
+  <details>
+    <summary>9/7（月）夜　フロントで</summary>
+    <div class="inner">
+      <ul>
+        <li>ビーチに監視員はいるか。何時から何時までか</li>
+        <li>水あそび用オムツでビーチに入れるか（プールは大丈夫と書いてあります）</li>
+        <li>子ども用のシュノーケルマスクはあるか</li>
+        <li>10日は何時まで部屋を使えるか</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>現地で</summary>
+    <div class="inner">
+      <ul><li>パーゴラルームの料金（案内に5,000円と4,400円の両方が出ています）</li></ul>
+    </div>
+  </details>
+
+  <div class="card gold" style="margin-top:18px">
+    <p style="font-size:16px;line-height:1.9">
       <b>予定は変わってかまいません。</b>天気や、子どもたちの機嫌で動きます。
-      ここに書いてあるのは「こうだと気持ちよく回れる」という目安です。<br>
-      迷ったら、<b>おひるねの時間だけは守る</b>。それだけで1日がうまくいきます。</p>
+      ここに書いてあるのは「こうだと気持ちよく回れる」という目安です。</p>
+    <p style="font-size:17px;color:var(--gold);font-family:var(--serif);margin-top:12px">
+      迷ったら、おひるねの時間だけは守る。<br>それだけで1日がうまくいきます。</p>
   </div>
 </section>
 
 <footer>
-  沖縄 家族旅行のしおり　／　2026年9月7日〜10日<br>
-  もとの資料：成果物／行程ざっくり案.html
+  <div class="fl"></div>
+  おきなわ 家族旅行のしおり<br>
+  2026年9月7日 — 9月10日<br>
+  <span style="font-size:11px;opacity:.7;letter-spacing:.06em;display:block;margin-top:12px">
+    海の写真：ウィキメディア・コモンズ（沖縄 阿嘉島／那覇沖／渡名喜島）</span>
 </footer>
+
+</div><!-- /wrap -->
+
+<!-- ===================== 下部ナビ ===================== -->
+<nav id="nav">
+  <div class="row">
+    <a href="#cover">表紙</a>
+    <a href="#must">大事</a>
+    <a href="#d1">7日</a>
+    <a href="#d2">8日</a>
+    <a href="#d3">9日</a>
+    <a href="#d4">10日</a>
+    <a href="#pack">持ちもの</a>
+    <a href="#info">連絡先</a>
+    <a href="#kids">すずか</a>
+    <a href="#cave">青の洞窟</a>
+    <a href="#game">ゲーム</a>
+  </div>
+</nav>
 
 <script>
 (function(){
-  var dep = new Date(2026, 8, 7);           // 2026年9月7日
-  var ret = new Date(2026, 8, 10);          // 2026年9月10日
-  var now = new Date();
-  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  var d = Math.round((dep - today) / 86400000);
-  var cn = document.getElementById('cn');
-  var cl = document.getElementById('cl');
-  if (!cn || !cl) return;
-  if (d > 0) {
-    cn.innerHTML = 'あと' + d + '<small>日</small>';
-    cl.textContent = 'しゅっぱつまで';
-  } else if (d === 0) {
-    cn.textContent = 'いよいよ今日';
-    cl.textContent = 'いってらっしゃい';
-  } else if (today <= ret) {
-    cn.textContent = '沖縄にいます';
-    cl.textContent = 'たのしんで';
-  } else {
-    cn.textContent = 'おかえりなさい';
-    cl.textContent = 'また行こうね';
+'use strict';
+var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var each = function(list, fn){ Array.prototype.forEach.call(list, fn); };
+
+/* ---------------- 入口（潜る演出） ---------------- */
+var gate = document.getElementById('gate');
+var opened = false;
+function dive(){
+  if(opened) return; opened = true;
+  gate.classList.add('dive');
+  setTimeout(function(){ if(gate && gate.parentNode) gate.parentNode.removeChild(gate); }, 1300);
+  document.body.style.overflow = '';
+}
+if(gate){
+  document.body.style.overflow = 'hidden';
+  gate.addEventListener('click', dive);
+  gate.addEventListener('touchstart', dive, {passive:true});
+  setTimeout(dive, 4000);   /* 押さなくても4秒で開く */
+}
+
+/* ---------------- 泡と浮遊物 ---------------- */
+if(!reduce){
+  var bw = document.getElementById('bubbles');
+  var n = window.innerWidth < 480 ? 16 : 26;
+  var frag = document.createDocumentFragment();
+  var i;
+  for(i=0;i<n;i++){
+    var b = document.createElement('i');
+    b.className = 'bub';
+    var s = 4 + Math.random()*17;
+    b.style.width = s+'px'; b.style.height = s+'px';
+    b.style.left = (Math.random()*100)+'%';
+    b.style.animationDuration = (11 + Math.random()*16)+'s';
+    b.style.animationDelay = (-Math.random()*22)+'s';
+    b.style.opacity = (0.3 + Math.random()*0.5);
+    frag.appendChild(b);
   }
+  for(i=0;i<22;i++){
+    var m = document.createElement('i');
+    m.className = 'mote';
+    m.style.left = (Math.random()*100)+'%';
+    m.style.bottom = (-10 + Math.random()*30)+'vh';
+    m.style.animationDuration = (24 + Math.random()*28)+'s';
+    m.style.animationDelay = (-Math.random()*40)+'s';
+    frag.appendChild(m);
+  }
+  bw.appendChild(frag);
+
+  /* 遠くを泳ぐ魚のかげ（5匹・それぞれ速さと高さがちがう） */
+  var fw = document.getElementById('fish');
+  var shape = '<svg viewBox="0 0 100 44" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M4 22 C4 6 26 0 46 4 C66 8 80 16 88 22 C80 28 66 36 46 40 C26 44 4 38 4 22 Z"/>' +
+    '<path d="M88 22 L100 8 L98 22 L100 36 Z"/></svg>';
+  var ffrag = document.createDocumentFragment();
+  var plan = [
+    {w:46, top:18, dur:64, delay:-8,  back:false},
+    {w:30, top:34, dur:88, delay:-40, back:true},
+    {w:62, top:56, dur:52, delay:-25, back:false},
+    {w:24, top:72, dur:96, delay:-60, back:true},
+    {w:38, top:88, dur:74, delay:-15, back:false}
+  ];
+  plan.forEach(function(f){
+    var d = document.createElement('div');
+    d.innerHTML = shape;
+    var svg = d.firstChild;
+    svg.style.width = f.w + 'px';
+    svg.style.top = f.top + '%';
+    svg.style.left = '0';
+    svg.style.animationDuration = f.dur + 's';
+    svg.style.animationDelay = f.delay + 's';
+    if(f.back) svg.setAttribute('class','back');
+    ffrag.appendChild(svg);
+  });
+  fw.appendChild(ffrag);
+}
+
+/* ---------------- カウントダウン ---------------- */
+var depart = new Date(2026, 8, 7, 11, 30, 0);   /* 9/7 11:30 福岡発 */
+var back   = new Date(2026, 8, 10, 20, 0, 0);   /* 9/10 20:00 福岡着 */
+var eD=document.getElementById('cdD'), eH=document.getElementById('cdH'),
+    eM=document.getElementById('cdM'), eS=document.getElementById('cdS'),
+    eL=document.getElementById('cdlabel');
+function setDash(){
+  eD.textContent='—'; eH.textContent='—'; eM.textContent='—'; eS.textContent='—';
+}
+function tick(){
+  var now = new Date(), diff = depart - now;
+  if(diff > 0){
+    var s = Math.floor(diff/1000);
+    eD.textContent = Math.floor(s/86400);
+    eH.textContent = Math.floor(s%86400/3600);
+    eM.textContent = Math.floor(s%3600/60);
+    eS.textContent = s%60;
+    eL.textContent = 'し ゅ っ ぱ つ ま で';
+    eL.className = '';
+  } else if(now <= back){
+    setDash();
+    eL.textContent = 'い ま、沖 縄 に い ま す';
+    eL.className = 'arrived';
+  } else {
+    setDash();
+    eL.textContent = 'お つ か れ さ ま で し た';
+    eL.className = 'arrived';
+  }
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------------- スクロールで深く潜る ---------------- */
+var root = document.documentElement;
+var dv = document.getElementById('dval');
+var df = document.getElementById('dfish');
+var fishes = ['🐠','🐟','🐡','🐬','🦈','🐢'];
+var lastFish = -1, ticking = false;
+var nav = document.getElementById('nav');
+var links = nav.querySelectorAll('a');
+var secs = [], curId = null;
+each(links, function(a){
+  var el = document.querySelector(a.getAttribute('href'));
+  if(el) secs.push(el);
+});
+
+function onScroll(){
+  var max = document.body.scrollHeight - window.innerHeight;
+  var p = max > 0 ? Math.min(1, Math.max(0, window.pageYOffset / max)) : 0;
+  root.style.setProperty('--depth', p.toFixed(3));
+
+  if(dv){
+    dv.textContent = Math.round(p * 28) + 'm';
+    dv.style.top = (p * 100) + '%';
+    df.style.top = 'calc(' + (p*100) + '% - 10px)';
+    var fi = Math.min(fishes.length-1, Math.floor(p * fishes.length));
+    if(fi !== lastFish){ df.textContent = fishes[fi]; lastFish = fi; }
+  }
+
+  nav.classList.toggle('show', window.pageYOffset > 260);
+
+  var cur = null;
+  for(var i=0;i<secs.length;i++){
+    if(secs[i].getBoundingClientRect().top <= window.innerHeight*0.42) cur = secs[i].id;
+  }
+  if(cur !== curId){
+    curId = cur;
+    each(links, function(a){
+      var on = a.getAttribute('href') === '#'+cur;
+      a.classList.toggle('cur', on);
+      /* 今いる場所のボタンが画面外に隠れないよう、ナビを横にずらす */
+      if(on && a.offsetParent){
+        var row = a.parentNode;
+        var want = a.offsetLeft - (row.clientWidth - a.offsetWidth)/2;
+        row.scrollTo ? row.scrollTo({left:want, behavior:'smooth'}) : (row.scrollLeft = want);
+      }
+    });
+  }
+  ticking = false;
+}
+window.addEventListener('scroll', function(){
+  if(!ticking){ ticking = true; requestAnimationFrame(onScroll); }
+}, {passive:true});
+window.addEventListener('resize', onScroll, {passive:true});
+onScroll();
+
+/* ---------------- 出てくるアニメ ---------------- */
+var rv = document.querySelectorAll('.rv');
+if('IntersectionObserver' in window && !reduce){
+  var io = new IntersectionObserver(function(es){
+    each(es, function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.04});
+  each(rv, function(el){ io.observe(el); });
+}
+/* 効かなかったとき用（必ず見えるようにする） */
+setTimeout(function(){ each(rv, function(el){ el.classList.add('on'); }); }, 3500);
+
+/* ---------------- 保存する仕組み ---------------- */
+var KEY = 'okinawa-shiori-v2';
+var store = {};
+try{ store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; }catch(e){ store = {}; }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
+
+/* 持ちものチェック */
+var boxes = document.querySelectorAll('.chk input[data-k]');
+var packBoxes = document.querySelectorAll('#pack .chk input[data-k]');
+var pf = document.getElementById('pf'), pt = document.getElementById('pt');
+function updateProg(){
+  var done = 0;
+  each(packBoxes, function(b){ if(b.checked) done++; });
+  var total = packBoxes.length;
+  var pct = total ? Math.round(done/total*100) : 0;
+  if(pf) pf.style.width = pct + '%';
+  if(pt){
+    pt.textContent = done + ' / ' + total + '　' +
+      (done === 0 ? 'じゅんび中' : done === total ? 'ぜんぶ そろいました' : 'あと ' + (total-done) + 'こ');
+  }
+}
+each(boxes, function(b){
+  var k = b.getAttribute('data-k');
+  if(store[k]) b.checked = true;
+  b.addEventListener('change', function(){
+    if(b.checked) store[k] = 1; else delete store[k];
+    save(); updateProg();
+  });
+});
+updateProg();
+
+/* 生きもの探し */
+var find = document.getElementById('find');
+var fn = document.getElementById('findn');
+function updateFind(){
+  if(fn) fn.textContent = find.querySelectorAll('li.got').length;
+}
+if(find){
+  each(find.querySelectorAll('li'), function(li){
+    var k = li.getAttribute('data-k');
+    if(store[k]) li.classList.add('got');
+    li.addEventListener('click', function(){
+      li.classList.toggle('got');
+      if(li.classList.contains('got')){ store[k] = 1; pop(li); } else { delete store[k]; }
+      save(); updateFind();
+    });
+  });
+  updateFind();
+}
+
+/* みつけたときのキラキラ */
+function pop(el){
+  if(reduce || !el.animate) return;
+  var r = el.getBoundingClientRect();
+  for(var i=0;i<8;i++){
+    (function(){
+      var s = document.createElement('i');
+      s.textContent = '✨';
+      s.style.cssText = 'position:fixed;z-index:80;pointer-events:none;font-size:' +
+        (10+Math.random()*12) + 'px;left:' + (r.left+r.width/2) + 'px;top:' + (r.top+r.height/2) + 'px;';
+      document.body.appendChild(s);
+      var ang = Math.random()*Math.PI*2, dist = 30 + Math.random()*55;
+      s.animate([
+        {transform:'translate(-50%,-50%) scale(.4)', opacity:1},
+        {transform:'translate(' + (Math.cos(ang)*dist-10) + 'px,' + (Math.sin(ang)*dist-10) + 'px) scale(1.2)', opacity:0}
+      ], {duration: 620 + Math.random()*350, easing:'cubic-bezier(.2,.8,.3,1)'});
+      setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 1100);
+    })();
+  }
+}
 })();
 </script>
-
 </body>
 </html>
